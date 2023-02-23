@@ -1,13 +1,16 @@
 from flask import Flask, render_template, url_for, redirect
 from authlib.integrations.flask_client import OAuth
+from dotenv import load_dotenv
+
 import os
 
-
+load_dotenv()
 
 app = Flask(__name__)
 oauth = OAuth(app)
 
-app.secret_key = 'youcantbrokeit'
+app.secret_key = os.getenv("SECRET_KEY")
+#app.secret_key = 'youcantbrokeit'
 app.config['SERVER_NAME'] = 'localhost:5000'
 
 
@@ -51,7 +54,7 @@ def google_auth():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
 
 
 
