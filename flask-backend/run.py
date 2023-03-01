@@ -13,10 +13,24 @@ app.secret_key = os.getenv("SECRET_KEY")
 #app.secret_key = 'youcantbrokeit'
 app.config['SERVER_NAME'] = 'localhost:5000'
 
-
 @app.route("/")
 def home():
-    return render_template('index.html')
+    para =[
+        'section1',
+        'section2',
+        'section3'
+    ]
+
+    return render_template('index.html', data=para)
+
+@app.route('/data')
+def get_time():
+    return {
+        'Name':"geek", 
+        "Age":"22",
+        "Date": "x", 
+        "programming":"python"
+    }
 
 @app.route('/google/')
 def google():
@@ -54,7 +68,7 @@ def google_auth():
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
 
 
 
