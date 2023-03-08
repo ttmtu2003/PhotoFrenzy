@@ -1,6 +1,6 @@
 import os
 from flask import render_template, flash, url_for, redirect, request, session
-
+from app.models import User, db
 from app import app, oauth
 
 @app.route("/")
@@ -27,12 +27,24 @@ def get_time():
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     if request.method == "POST":
-        username1 = request.form.get("username")
-        email1 = request.form.get("email")
-        password = request.form.get("psw")
-        rpassword = request.form.get("psw-repeat")
+        username1 = request.form.get('username')
+        email1 = request.form.get('email')
+        password = request.form.get('psw')
+        rpassword = request.form.get('pswrepeat')
+        
+        user1 = User.query.filter_by(email=email1).first()
 
+        if user1 is not None:
+            print(f"{username1}, {email1}, {password}, {rpassword}.")
+            flash("email is exist, enter different one")
+            return redirect('/signup')
+        else:
+            u = User(username=username1, email=email1, password=password)
+            db.session.add(u)
+            db.session.commit()
         print(f"{username1}, {email1}, {password}, {rpassword}.")
+
+        #print(f"{user1[0].username} and {user1[0].email}")
         return redirect('/')
     return render_template('testing.html')
 
