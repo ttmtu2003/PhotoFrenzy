@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Open Sans',serif;
+  background-color: black;
+}
+
+.logo {
+  color: #C7930E;
+  font-size: 36px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  margin-top: 0;
+  width: 100%;
+}
+
