@@ -12,7 +12,7 @@ function PublicRoute({ children, isAuthenticated, ...rest }) {
           ) : (
             <Redirect
               to={{
-                pathname: '/explore',
+                pathname: '/',
                 state: { referrer: currentLocation }
               }}
             />

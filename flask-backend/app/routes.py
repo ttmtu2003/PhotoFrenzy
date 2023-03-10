@@ -48,6 +48,19 @@ def signup():
         return redirect('/')
     return render_template('testing.html')
 
+@app.route('/login1', methods=['POST'], strict_slashes=False)
+def login():
+    # if request.method == "POST":
+    username1 = request.json["body"]["username"]
+    password = request.json["body"]["password"]
+    #data1 = request.json["body"]["username"]
+    
+    
+
+    print(f"The information from react: {username1} and {password}")
+    
+    return ""
+
 
 @app.route('/google/')
 def google():

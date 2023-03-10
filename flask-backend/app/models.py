@@ -1,5 +1,6 @@
 from app import db
 
+
 class User(db.Model):
     """
     User class, which contains id, username, password, email and the products.
