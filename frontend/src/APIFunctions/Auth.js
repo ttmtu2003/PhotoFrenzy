@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export async function loginUser(username, password) {
-  return await axios.post(`http://localhost:5000/login`, { 
+  return await axios.post(`/login1`, { 
     crossDomain: true,
       withCredentials: true,
       headers: {
@@ -18,7 +18,7 @@ export async function loginUser(username, password) {
 
 export async function signupUser(username, email, password, passwordRepeat) {
   let status
-  await axios.post('http://localhost:5000/signup', {
+  await axios.post('/signup', {
       crossDomain: true,
       withCredentials: true,
       headers: {
