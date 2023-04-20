@@ -9,19 +9,13 @@ const LoginForm = ( { className } ) => {
   const [ errorMsg, setErrorMsg ] = useState("")
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    console.log(username) 
-    await loginUser(username, password)
+    e.preventDefault();  
     window.localStorage.setItem('isAuthed', true)
   }
 
   
   return (
     <div className="mt-3 t-w-fit t-font-light">
-      <CardTitle className="t-font-semibold t-mb-[1.4rem]">
-        PhotoFrenzy
-      </CardTitle>
-
       <Form onSubmit={handleSubmit} className="t-flex t-justify-between t-flex-col">
         
         {errorMsg && <div className="t-mb-1 t-text-red-500">{errorMsg}</div>}
@@ -32,7 +26,7 @@ const LoginForm = ( { className } ) => {
             <span className="t-text-red-500"> *</span>
           </Label>
           <Input 
-            className="t-px-2 t-bg-[#F2F0ED] t-h-[1.8rem] t-border-0 t-rounded mt-[0.5em] focus:t-border-[1px] focus:t-outline-none focus:t-border-orange-300 focus:!t-shadow-none"
+            className="t-px-2 t-bg-[#FFFF] t-h-[1.8rem] t-border-0 t-rounded mt-[0.5em] focus:t-border-[1px] focus:t-outline-none focus:t-border-primary-300 focus:!t-shadow-none"
             id="auth-username"
             type="text"
             autoFocus
@@ -48,7 +42,7 @@ const LoginForm = ( { className } ) => {
             <span className="t-text-red-500"> *</span>
           </Label>
           <Input 
-            className="t-px-2 t-bg-[#F2F0ED] t-h-[1.8rem] t-border-0 t-rounded mt-[0.5em] focus:t-border-[1px] focus:t-outline-none focus:t-border-orange-300 focus:!t-shadow-none"
+            className="t-px-2 t-bg-[#FFFF] t-h-[1.8rem] t-border-0 t-rounded mt-[0.5em] focus:t-border-[1px] focus:t-outline-none focus:t-border-primary-300 focus:!t-shadow-none"
             type="password"
             id="auth-password"
             required
@@ -57,7 +51,7 @@ const LoginForm = ( { className } ) => {
           />
         </FormGroup>
 
-        <Button type="submit"  className="hover:t-cursor-pointer hover:t-bg-[#ac8010] t-w-full t-py-[10px] t-px-[20px] t-my-[0.6em] t-bg-[#C7930E] t-text-white t-font-bold t-rounded-sm t-border-none">
+        <Button type="submit" className="hover:t-cursor-pointer hover:t-bg-[#519bc3] t-w-full t-py-[10px] t-px-[20px] t-my-[0.6em] t-bg-[#64BCED] t-text-white t-font-bold t-rounded-md t-border-none">
           Login
         </Button>
 
@@ -67,7 +61,10 @@ const LoginForm = ( { className } ) => {
             <div className="t-relative t-text-neutral-300 mx-3 t-align-baseline">OR</div>
             <div className="t-top-[0.75em] t-shrink t-h-[1px] t-relative t-grow t-bg-neutral-300"></div>
           </div>
-        </div>        
+        </div>  
+
+        {/* Google login */}
+        
 
         <div className="t-my-[0.6em]">
           New to our platform? 
