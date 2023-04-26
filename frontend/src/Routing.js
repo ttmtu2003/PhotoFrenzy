@@ -8,41 +8,16 @@ import PublicRoute from './PublicRoute.js'
 // pages
 const LoginPage = lazy(() => import('./pages/LoginPage/index.js'))
 const SignupPage = lazy(() => import('./pages/SignupPage/index.js'))
-// const ExplorePage = lazy(() => import('./pages/ExplorePage/index.js'))
-// const MyLibPage = lazy(() => import('./pages/MyLibPage/index.js'))
-// const BookDetailPage = lazy(() => import('./pages/BookDetailPage/index.js'))
-// const LibBookDetailPage = lazy(() => import('./pages/LibBookDetailPage/index.js'))
-// const StatsPage = lazy(() => import('./pages/StatsPage/index.js'))
-
+const HomePage = lazy(() => import('./pages/HomePage/index.js'))
 function Routing({ isAuthenticated }) {
   // authenticated routes 
-  // const authedRoutes = [
-  //   {
-  //     component: ExplorePage,
-  //     path: 'explore',
-  //     exact: true
-  //   },
-  //   {
-  //     component: BookDetailPage,
-  //     path: `explore/book-detail/:bookId`,
-  //     exact: true
-  //   },
-  //   {
-  //     component: MyLibPage,
-  //     path: 'mylibrary',
-  //     exact: true
-  //   },
-  //   {
-  //     component: LibBookDetailPage,
-  //     path: `mylibrary/book-detail/:bookId`,
-  //     exact: true
-  //   },
-  //   {
-  //     component: StatsPage,
-  //     path: `reading-stats`,
-  //     exact: true
-  //   },
-  // ]
+  const authedRoutes = [
+    {
+      component: HomePage,
+      path: 'explore',
+      exact: true
+    },
+  ]
 
   return (
    <Router>
@@ -53,7 +28,7 @@ function Routing({ isAuthenticated }) {
             <PublicRoute
               path='/login'
               exact
-              isAuthenticated={isAuthenticated}
+              // isAuthenticated={isAuthenticated}
             >
               <LoginPage />
             </PublicRoute>
@@ -61,7 +36,7 @@ function Routing({ isAuthenticated }) {
             <PublicRoute
               path="/register"
               exact
-              isAuthenticated={isAuthenticated}
+              // isAuthenticated={isAuthenticated}
             >
               <SignupPage />
             </PublicRoute>
@@ -70,7 +45,7 @@ function Routing({ isAuthenticated }) {
             <PublicRoute
               path='/'
               exact
-              isAuthenticated={isAuthenticated}
+              // isAuthenticated={isAuthenticated}
             >
               <Redirect
               to={{ pathname: '/login' }}
@@ -78,7 +53,7 @@ function Routing({ isAuthenticated }) {
             </PublicRoute>
 
             {/* Private routes */}
-            {/* <PrivateRoute
+            <PrivateRoute
               isAuthenticated={isAuthenticated}
             >
               {authedRoutes.map(({ component: Component, path, exact }) => (
@@ -90,7 +65,7 @@ function Routing({ isAuthenticated }) {
                   <Component />
                 </Route>
               ))}
-            </PrivateRoute> */}
+            </PrivateRoute>
         </Switch>
       </Suspense>
    </Router>
