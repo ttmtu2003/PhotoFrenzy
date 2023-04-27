@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, CardBody } from 'reactstrap'
-import LoginForm from '../../components/LoginForm/LoginForm.js'
+import LoginForm from './components/LoginForm/LoginForm'
 
 const LoginPage = ({ className }) => {
 

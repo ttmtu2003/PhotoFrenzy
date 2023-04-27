@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card, CardBody } from 'reactstrap'
-import SignupForm from '../../components/SignupForm/SignupForm'
+import SignupForm from './components/SignupForm/SignupForm'
+
 
 const SignupPage = ({ className }) => {
 
