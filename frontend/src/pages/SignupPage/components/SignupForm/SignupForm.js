@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Button, CardTitle, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap'
-// api fnc
-import { signupUser } from '../../APIFunctions/Auth'
+// hooks
+import { signupUser } from '../../hooks/useSignUp'
 
-const SignupForm = ( className ) => {
+const SignupForm = ( { className } ) => {
   
   const [ fullName, setFullName ] = useState("")
   const [ username, setUsername ] = useState("")

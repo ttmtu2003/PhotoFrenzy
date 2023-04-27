@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, CardTitle, Form, FormGroup, Input, Label } from 'reactstrap'
-import { loginUser } from '../../APIFunctions/Auth'
+// hooks
+import { loginUser } from '../../hooks/useLogin'
 
 const LoginForm = ( { className } ) => {
   const [ username, setUsername ] = useState("")
