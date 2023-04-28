@@ -9,12 +9,19 @@ import PublicRoute from './PublicRoute.js'
 const LoginPage = lazy(() => import('./pages/LoginPage/index.js'))
 const SignupPage = lazy(() => import('./pages/SignupPage/index.js'))
 const HomePage = lazy(() => import('./pages/HomePage/index.js'))
+const ProfilePage = lazy(() => import('./pages/ProfilePage/index.js'))
+
 function Routing({ isAuthenticated }) {
   // authenticated routes 
   const authedRoutes = [
     {
       component: HomePage,
       path: 'explore',
+      exact: true
+    },
+    {
+      component: ProfilePage,
+      path: 'profile',
       exact: true
     },
   ]
