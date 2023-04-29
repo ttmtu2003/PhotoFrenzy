@@ -2,18 +2,20 @@ import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { Input, Popover, PopoverBody } from 'reactstrap';
+import Avatar from '../Avatar/Avatar';
+import mockData4 from "../../assets/pictures/mockData4.jpg"
 
 const results = [
   {
     id: 1,
     username: "johndoe",
-    avatarUrl: "https://example.com/avatar.jpg",
+    avatarUrl: mockData4,
     bio: "I'm a software developer"
   },
   {
     id: 2,
     username: "janedoe",
-    avatarUrl: "https://example.com/avatar.jpg",
+    avatarUrl: mockData4,
     bio: "I'm a graphic designer"
   }
 ]
@@ -56,19 +58,20 @@ const SearchBar = () => {
       <Popover
         placement="bottom-start"
         popperClassName="t-max-w-none t-z-[1100]"
-        innerClassName="t-w-[30rem]"
+        innerClassName="t-w-[25rem]"
         target={searchRef}
         isOpen={addMemberPopoverOpen}
         toggle={() => setAddMemberPopoverOpen((prev) => !prev)}
         hideArrow
         trigger="legacy"
       >
-        <PopoverBody>
+        <PopoverBody className='px-0'>
           {results.length > 0 && (
             <ul>
               {results.map(user => (
-                <li key={user.id} onClick={() => handleResultClick(user.id)}>
-                  {user.username}
+                <li key={user.id} className="hover:t-bg-[#F4F4F4] t-items-center py-2 px-3 t-flex hover:t-cursor-pointer" onClick={() => handleResultClick(user.id)}>
+                  <Avatar img={user.avatarUrl} className="t-w-[2rem] t-h-[2rem]" />
+                  <p className='t-font-semibold t-text-[15px] ml-2'>{user.username}</p>
                 </li>
               ))}
             </ul>
