@@ -7,55 +7,61 @@ import PostButton from "./components/PostButton/PostButton"
 
 const images = [
   {
+    id: '123',
     thumbnail: mockData1,
     width: '10px',
     height: '30%',
-    author: '123123',
+    author: 'maya_12',
     title: 'taylor singing',
     link: 'localhost:3001/pic',
     caption: 'taylor singing',
   },
   {
+    id: '1234',
     thumbnail: mockData2,
     width: '30%',
     height: '30%',
-    author: 'maya_123123123',
+    author: 'maya_12',
     title: 'taylor singing',
     link: 'localhost:3001/pic',
     caption: 'taylor singing',
   },
   {
+    id: '12345',
     thumbnail: mockData3,
     width: '100%',
     height: '100%',
-    author: '123123123',
+    author: 'maya_12',
     title: 'taylor singing',
     link: 'localhost:3001/pic',
     caption: 'taylor singing',
   },
   {
+    id: '123456',
     thumbnail: mockData1,
     width: '10px',
     height: '30%',
-    author: '345345345',
+    author: 'maya_12',
     title: 'taylor singing',
     link: 'localhost:3001/pic',
     caption: 'taylor singing',
   },
   {
+    id: '1234567',
     thumbnail: mockData2,
     width: '30%',
     height: '30%',
-    author: '566756756',
+    author: 'maya_12',
     title: 'taylor singing',
     link: 'localhost:3001/pic',
     caption: 'taylor singing',
   },
   {
+    id: '12345678',
     thumbnail: mockData3,
     width: '100%',
     height: '100%',
-    author: '2342423',
+    author: 'maya_12',
     title: 'taylor singing',
     link: 'localhost:3001/pic',
     caption: 'taylor singing',
@@ -68,7 +74,7 @@ const HomePage = () => {
       <UserNavbar />
       <div>
         <PostButton />
-        <Posts images={images} className="t-mt-[4rem]" />
+        <Posts posts={images} className="t-mt-[4rem]" />
       </div>
     </div>
   )

@@ -10,6 +10,7 @@ const LoginPage = lazy(() => import('./pages/LoginPage/index.js'))
 const SignupPage = lazy(() => import('./pages/SignupPage/index.js'))
 const HomePage = lazy(() => import('./pages/HomePage/index.js'))
 const ProfilePage = lazy(() => import('./pages/ProfilePage/index.js'))
+const PostPhotoPage = lazy(() => import('./pages/PostPhotoPage/index.js'))
 
 function Routing({ isAuthenticated }) {
   // authenticated routes 
@@ -22,6 +23,11 @@ function Routing({ isAuthenticated }) {
     {
       component: ProfilePage,
       path: 'profile',
+      exact: true
+    },
+    {
+      component: PostPhotoPage,
+      path: 'post-photo',
       exact: true
     },
   ]

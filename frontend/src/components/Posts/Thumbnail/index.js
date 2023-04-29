@@ -1,18 +1,17 @@
 import styled from "styled-components";
 import { Paper } from "@material-ui/core"
 
-export const Thumbnail = ({ image, className }) => {
+const Thumbnail = ({ post, className }) => {
+
   return (
     <StyledContainer className={className} elevation={3}>
-      <a href={image.link} rel="noreferrer" target="_blank">
-        <StyledImage src={image.thumbnail} alt={image.title || "photo"} />
-        <StyledOverlay>
-            <StyledAuthor>
-              <h1 className="t-w-full t-text-ellipsis t-whitespace-nowrap t-overflow-hidden t-font-semibold t-text-[14px]">{image.caption}</h1>
-              <p className="t-font-light t-text-[11px] mt-1">posted by <span className="t-font-semibold">{image.author}</span></p>
-            </StyledAuthor>
-        </StyledOverlay>
-      </a>
+      <StyledImage src={post.thumbnail} alt={post.title || "photo"} />
+      <StyledOverlay>
+          <StyledAuthor>
+            <h1 className="t-w-full t-text-ellipsis t-whitespace-nowrap t-overflow-hidden t-font-semibold t-text-[14px]">{post.caption}</h1>
+            <p className="t-font-light t-text-[11px] mt-1">posted by <span className="t-font-semibold">{post.author}</span></p>
+          </StyledAuthor>
+      </StyledOverlay>
     </StyledContainer>
   )
 }
@@ -62,3 +61,5 @@ const StyledContainer = styled(Paper)`
     opacity: 1;
   }
 `;
+
+export default Thumbnail
