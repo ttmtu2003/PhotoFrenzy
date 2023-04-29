@@ -26,8 +26,8 @@ const Avatar = forwardRef((props, ref) => {
             [imgClassName]: imgClassName,
           })}
           src={img}
-          height={imgHeight ? imgHeight : 32}
-          width={imgWidth ? imgWidth : 32}
+          height={imgHeight ? imgHeight : '100%'}
+          width={imgWidth ? imgWidth : '100%'}
         />
     </Tag>
   )
