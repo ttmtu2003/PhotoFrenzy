@@ -1,6 +1,7 @@
 import React from "react";
 import { Home, User } from "react-feather";
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Input } from "reactstrap"
+import SearchBar from "../SearchBar/SearchBar";
 
 const UserNavbar = () => {
   return (
@@ -8,13 +9,7 @@ const UserNavbar = () => {
       <NavbarBrand className="!t-text-[#098DED] t-font-bold" href="/explore">PhotoFrenzy</NavbarBrand>
       <Nav className="mx-auto" navbar>
         <NavItem>
-          <Input
-            className="t-bg-secondary t-w-[15rem] md:t-w-[25rem] t-h-[2rem] t-rounded-md"
-            type="search"
-            name="search"
-            placeholder="Search"
-            autoComplete="off"
-          />
+          <SearchBar />
         </NavItem>
       </Nav>
       <Nav className="t-flex t-w-fit" navbar>
