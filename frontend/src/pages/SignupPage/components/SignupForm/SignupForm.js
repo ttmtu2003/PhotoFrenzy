@@ -16,6 +16,7 @@ const SignupForm = ( { className } ) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();  
+    await signupUser(fullName, username, password)
     history.push('/')
   }
 

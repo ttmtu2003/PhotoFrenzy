@@ -10,7 +10,8 @@ const LoginForm = ( { className } ) => {
   const [ errorMsg, setErrorMsg ] = useState("")
 
   const handleSubmit = async (e) => {
-    e.preventDefault();  
+    e.preventDefault(); 
+    await loginUser(username, password)
     window.localStorage.setItem('isAuthed', true)
   }
 

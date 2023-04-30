@@ -1,5 +1,5 @@
 import os
-from flask import render_template, flash, url_for, redirect, request, session
+from flask import render_template, flash, url_for, redirect, request, session,jsonify, json
 from app.models import User, db
 from app import app, oauth
 
@@ -14,39 +14,41 @@ def home():
     return render_template('index.html', data=para)
 
 
-@app.route('/data')
+@app.route('/data', methods=['GET'])
 def get_time():
-    return {
-        'Name': "geek",
-        "Age": "22",
-        "Date": "x",
-        "programming": "python"
-    }
+    if request.method == "GET":
+        
+        return json({
+            'Name': "geek",
+            "Age": "22",
+            "Date": "x",
+            "programming": "python"
+        })
 
 
-@app.route('/signup', methods=['POST', 'GET'])
+@app.route('/signup', methods=['POST', 'GET'], strict_slashes=False)
 def signup():
     if request.method == "POST":
-        username1 = request.form.get('username')
-        email1 = request.form.get('email')
-        password = request.form.get('psw')
-        rpassword = request.form.get('pswrepeat')
+        full_name = request.json["body"]['fullName']
+        username = request.json['body']["username"]
+        password = request.json['body']["password"]
+        # rpassword = request.json['passwordRepeat']
         
-        user1 = User.query.filter_by(email=email1).first()
+        # user1 = User.query.filter_by(email=email1).first()
 
-        if user1 is not None:
-            print(f"{username1}, {email1}, {password}, {rpassword}.")
-            flash("email is exist, enter different one")
-            return redirect('/signup')
-        else:
-            u = User(username=username1, email=email1, password=password)
-            db.session.add(u)
-            db.session.commit()
-        print(f"{username1}, {email1}, {password}, {rpassword}.")
+        # if user1 is not None:
+        #     print(f"{username1}, {email1}, {password}, {rpassword}.")
+        #     flash("email is exist, enter different one")
+        #     return redirect('/signup')
+        # else:
+        #     u = User(username=username1, email=email1, password=password)
+        #     db.session.add(u)
+        #     db.session.commit()
+        print(f"{full_name}, {username}, {password}.")
 
         #print(f"{user1[0].username} and {user1[0].email}")
-        return redirect('/')
-    return render_template('testing.html')
+        # return redirect('/')
+    return ""
 
 @app.route('/login1', methods=['POST'], strict_slashes=False)
 def login():
@@ -62,6 +64,10 @@ def login():
     return ""
 
 
+
+
+
+###############################################
 @app.route('/google/')
 def google():
     # Google Oauth Config
