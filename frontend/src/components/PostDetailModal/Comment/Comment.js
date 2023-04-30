@@ -5,15 +5,15 @@ import mockData5 from "../../../assets/pictures/mockData5.jpg"
 import Avatar from '../../Avatar/Avatar';
 import useGetComments from './hooks/useGetComments';
 
-const Comment = ({ className, postId }) => {
-  const [comment, setComment] = useState('');
-  const [commentsList, setCommentsList] = useState([]);
+const Comment = ({ className, postId, userId }) => {
+  const [comment, setComment] = useState('')
+  const [commentsList, setCommentsList] = useState([])
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);
-  };
+  }
 
-  const handleCommentSubmit = (event) => {
+  const handlePostComment = (event) => {
     event.preventDefault();
     if (comment.trim() !== '') {
       setCommentsList([...commentsList, comment]);
@@ -21,7 +21,15 @@ const Comment = ({ className, postId }) => {
     }
   }
 
-  // const { comments, error, isLoading } = useGetComments(postId)
+  // const { comments, error, isLoading } = useGetComments({ postId })
+  // const { postComment, isLoading, error } = usePostComment();
+
+  // post comment
+  // const handlePostComment = (event) => {
+  //   event.preventDefault();
+  //   postComment(postId, comment, userId);
+  //   setComment('');
+  // };
 
   // returned data from server
   const mockComments = [
@@ -45,7 +53,7 @@ const Comment = ({ className, postId }) => {
 
   return (
     <div className={className}>
-      <Form onSubmit={handleCommentSubmit}>
+      <Form onSubmit={handlePostComment}>
         <div className="t-bg-[#F1F1F1] p-2 t-flex t-items-center t-justify-between mb-4">
           <Input
             type="text"

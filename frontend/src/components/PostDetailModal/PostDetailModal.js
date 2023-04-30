@@ -4,6 +4,7 @@ import './style.scss'
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Avatar from "../Avatar/Avatar";
 import Comment from "./Comment/Comment";
+import Like from "./Like/Like";
 
 const PostDetailModal = ({ className, post, open, onClose }) => {
   return (
@@ -19,7 +20,7 @@ const PostDetailModal = ({ className, post, open, onClose }) => {
             <Row  className="t-items-center">
               <Col xs={3}><Avatar img={post.thumbnail} className="t-w-[2.5rem] t-h-[2.5rem]" /></Col>
               <Col xs={6} className="pl-0 t-font-semibold"><h1>{post.author}</h1></Col>
-              <Col xs={2}><FavoriteIcon /></Col>
+              <Col xs={2}><Like /></Col>
             </Row>
             {/* caption */}
             <Row>
