@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-export async function loginUser(username, password) {
-  return await axios.post(`/login1`, { 
+async function loginUser(username, password) {
+  return await axios.post(`/login`, { 
     crossDomain: true,
       withCredentials: true,
       headers: {
@@ -11,8 +11,10 @@ export async function loginUser(username, password) {
       },
     body: { username: username, password: password } })
   .then( res => {
-    return res.data
+    const { data, status } = res
+    return { data, status }
   })
   .catch(console.error)
 }
 
+export default loginUser

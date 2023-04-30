@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Button, CardTitle, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap'
 // hooks
-import { signupUser } from '../../hooks/useSignUp'
+import signupUser from '../../hooks/useSignUp'
 
 const SignupForm = ( { className } ) => {
   
@@ -56,7 +56,7 @@ const SignupForm = ( { className } ) => {
         {/* password */}
         <FormGroup className="t-flex t-flex-col t-mb-[0.6rem]">
           <Input 
-            className="t-px-2 t-bg-[#F2F0ED] t-h-[2.5rem] t-border-0 t-rounded mt-[0.5em] focus:t-border-[1px] focus:t-outline-none focus:t-border-orange-300 focus:!t-shadow-none"
+            className="t-px-2 t-bg-[#FFFF] t-h-[2.5rem] t-border-0 t-rounded mt-[0.5em] focus:t-border-[1px] focus:t-outline-none focus:t-border-orange-300 focus:!t-shadow-none"
             id="auth-password"
             required
             placeholder='Password'

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, CardTitle, Form, FormGroup, Input, Label } from 'reactstrap'
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap'
 // hooks
-import { loginUser } from '../../hooks/useLogin'
+import loginUser from '../../hooks/useLogin'
 
 const LoginForm = ( { className } ) => {
   const [ username, setUsername ] = useState("")
@@ -11,8 +11,14 @@ const LoginForm = ( { className } ) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
-    await loginUser(username, password)
-    window.localStorage.setItem('isAuthed', true)
+    const { data } = await loginUser(username, password)
+    if(data.status === 'success'){
+      window.location.href = '/explore'
+      window.localStorage.setItem('token', data.token)
+      window.localStorage.setItem('isAuthed', true)
+    }
+    else
+      setErrorMsg(data.message)
   }
 
   

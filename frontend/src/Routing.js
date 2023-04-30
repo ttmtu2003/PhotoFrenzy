@@ -33,7 +33,7 @@ function Routing({ isAuthenticated }) {
     },
     {
       component: OtherProfilePage,
-      path: 'users/:userId',
+      path: 'users/:id',
       exact: true
     },
   ]
@@ -47,7 +47,7 @@ function Routing({ isAuthenticated }) {
             <PublicRoute
               path='/login'
               exact
-              // isAuthenticated={isAuthenticated}
+              isAuthenticated={isAuthenticated}
             >
               <LoginPage />
             </PublicRoute>
@@ -55,7 +55,7 @@ function Routing({ isAuthenticated }) {
             <PublicRoute
               path="/register"
               exact
-              // isAuthenticated={isAuthenticated}
+              isAuthenticated={isAuthenticated}
             >
               <SignupPage />
             </PublicRoute>
@@ -64,7 +64,7 @@ function Routing({ isAuthenticated }) {
             <PublicRoute
               path='/'
               exact
-              // isAuthenticated={isAuthenticated}
+              isAuthenticated={isAuthenticated}
             >
               <Redirect
               to={{ pathname: '/login' }}
