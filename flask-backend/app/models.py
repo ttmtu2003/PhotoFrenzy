@@ -11,6 +11,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(20), unique=True, nullable=False)
     password_hash = db.Column(db.String(20))
     full_name = db.Column(db.String(100), nullable=True)
+    bio = db.Column(db.String(20), default='')
+    avatar = db.Column(db.LargeBinary)
     active = db.Column(db.Boolean, default=False)
 
     def __repr__(self):

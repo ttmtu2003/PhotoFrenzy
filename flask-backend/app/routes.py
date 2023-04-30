@@ -163,6 +163,61 @@ def get_posts():
     else:
         return jsonify({'message': 'Invalid user token'}), 400
 
+################ GET USERS ################
+@app.route('/users', methods=['GET'])
+def search_users():
+    search_query = request.args.get('search')
+    if search_query:
+        users = User.query.filter(User.username.ilike(f'%{search_query}%')).all()
+        filtered_users = [{'id': user.id, 'full_name': user.full_name, 'username': user.username, 'avatar': user.avatar, 'bio': user.bio} for user in users]
+        return jsonify(filtered_users)
+    else:
+        users = User.query.all()
+        all_users = [{'id': user.id, 'full_name': user.full_name, 'username': user.username, 'avatar': user.avatar, 'bio': user.bio} for user in users]
+        return jsonify(all_users)
+
+################ UPDATE PROFILE (NOT DONE) ################
+@app.route('/users', methods=['PUT'])
+def update_user_profile():
+    # print(f{'request.json['body']['user_token']'})
+    
+    try:
+      user_token = request.headers.get('Authorization').split(' ')[1]
+
+      print(f"HIII {user_token}.")
+      # Get the user object
+      user = User.query.get(user_token)
+
+      if not user:
+          return jsonify({'message': 'User not found'}), 404
+
+      # Update the user profile
+      field = request.json['field']
+      value = request.json['value']
+      setattr(user, field, value)
+      db.session.commit()
+
+      return jsonify({
+          'id': user.id,
+          'username': user.username,
+          'avatar': user.avatar,
+          'bio': user.bio,
+          # 'followers': user.followers,
+          # 'followings': user.followings
+      }), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Server error'}), 500
+
+################ LOGIN ################
+
+################ LOGIN ################
+
+################ LOGIN ################
+
+################ LOGIN ################
+
 ################ LOGIN ################
 
 ################ LOGIN ################
