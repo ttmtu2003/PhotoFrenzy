@@ -1,11 +1,15 @@
+import React from 'react'
+// comps
 import UserNavbar from "../../components/NavBar/NavBar"
-import Header from "./components/Header/Header"
 import Posts from "../../components/Posts/Posts"
+// local
+import Header from "./components/Header/Header"
+// assets
 import mockData1 from "../../assets/pictures/mockData1.jpg"
 import mockData2 from "../../assets/pictures/mockData2.jpg"
 import mockData3 from "../../assets/pictures/mockData3.jpg"
-
-import React, { useState, useEffect } from 'react'
+// hook
+import useUserPosts from "./hooks/useGetPosts"
 
 const images = [
   {
@@ -71,27 +75,18 @@ const images = [
 ];
 
 const ProfilePage = () => {
-  // const [data, setArticles] = useState([]);
-  // useEffect(()=>{
-  //   fetch('/data',{
-  //     'methods':'GET',
-  //     headers : {
-  //       'Content-Type':'application/json'
-  //     }
-  //   })
-  //   .then(response => response.json())
-  //   .then(response => setArticles(response))
-  //   .catch(error => console.log(error))
+  const userToken = window.localStorage.getItem('token')
 
-  // },[])
+  // user posts
+  const posts = useUserPosts({ userToken })
 
-  // console.log("print data:", data);
+  // console.log("PSOT", posts)
 
   return (
     <div>
       <UserNavbar />
       <Header className="t-mt-[6rem]" />
-      <Posts posts={images} />
+      <Posts posts={posts} />
     </div>
   )
 }

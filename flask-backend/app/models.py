@@ -48,6 +48,7 @@ class Post(db.Model):
           'id': self.id,
           'caption': self.caption,
           'user_token': self.user_token,
+          'full_name': '',
           'likes': self.likes,
           'photo_data': self.photo_data
       }

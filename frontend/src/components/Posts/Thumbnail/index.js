@@ -5,12 +5,11 @@ const Thumbnail = ({ post, className }) => {
 
   return (
     <StyledContainer className={className} elevation={3}>
-      <StyledImage src={post.thumbnail} alt={post.title || "photo"} />
-      {/* <img src="data:image/jpeg;base64,{{ photo_data }}" alt="{{ caption }}"></img> */}
+      <StyledImage src={`data:image/jpeg;base64,${post.photo_data}`} alt="photo" />
       <StyledOverlay>
           <StyledAuthor>
             <h1 className="t-w-full t-text-ellipsis t-whitespace-nowrap t-overflow-hidden t-font-semibold t-text-[14px]">{post.caption}</h1>
-            <p className="t-font-light t-text-[11px] mt-1">posted by <span className="t-font-semibold">{post.author}</span></p>
+            <p className="t-font-light t-text-[11px] mt-1">posted by <span className="t-font-semibold">{post.full_name}</span></p>
           </StyledAuthor>
       </StyledOverlay>
     </StyledContainer>
