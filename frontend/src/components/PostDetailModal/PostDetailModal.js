@@ -13,13 +13,13 @@ const PostDetailModal = ({ className, post, open, onClose }) => {
       <ModalBody className="p-0">
         <Row className="mx-0 t-h-full t-w-full">
           <Col xs={8} className="p-0 t-w-full t-h-full t-bg-black">
-            <img src={post.thumbnail} className="t-object-contain t-w-full t-h-full" />
+            <img src={`data:image/jpeg;base64,${post.photo_data}`} className="t-object-contain t-w-full t-h-full" />
           </Col>
           <Col xs={4} className="pt-4">
             {/* avatar */}
             <Row  className="t-items-center">
-              <Col xs={3}><Avatar img={post.thumbnail} className="t-w-[2.5rem] t-h-[2.5rem]" /></Col>
-              <Col xs={6} className="pl-0 t-font-semibold"><h1>{post.author}</h1></Col>
+              <Col xs={3}><Avatar img={`data:image/jpeg;base64,${post.photo_data}`} className="t-w-[2.5rem] t-h-[2.5rem]" /></Col>
+              <Col xs={6} className="t-font-semibold"><h1>{post.full_name}</h1></Col>
               <Col xs={2}><Like /></Col>
             </Row>
             {/* caption */}
