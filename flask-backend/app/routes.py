@@ -1,7 +1,11 @@
 import os
 from flask import render_template, flash, url_for, redirect, request, session,jsonify, json
 from app.models import User, db
-from app import app, oauth
+from app import app
+import secrets
+from flask_login import login_user
+from werkzeug.security import generate_password_hash
+
 
 @app.route("/")
 def home():
@@ -25,6 +29,39 @@ def get_time():
             "programming": "python"
         })
 
+# @app.route('/signup', methods=['POST'], strict_slashes=False)
+# def signup():
+#     try:
+#         # Get the full name, username, and password from the request body
+#         full_name = request.json["body"]['fullName']
+#         username = request.json["body"]['username']
+#         password = request.json["body"]['password']
+
+#         print(f"{full_name}, {username}, {password}.")
+#         # Check if the user already exists
+#         user = User.query.filter_by(username=username).first()
+#         if user:
+#             return jsonify({'message': 'User already exists'}), 400
+
+#         # Hash the password
+#         hashed_password = generate_password_hash(password, method='sha256')
+
+#         # Insert the user into the database
+#         user = User(full_name=full_name, username=username, password=hashed_password)
+#         db.session.add(user)
+#         db.session.commit()
+
+#         # Log the user in
+#         login_user(user)
+
+#         # Generate a random token
+#         token = secrets.token_hex(16)
+
+#         return jsonify({'token': token})
+
+#     except Exception as e:
+#         print(e)
+#         return jsonify({'message': 'Internal server error'}), 500
 
 @app.route('/signup', methods=['POST', 'GET'], strict_slashes=False)
 def signup():
@@ -32,7 +69,6 @@ def signup():
         full_name = request.json["body"]['fullName']
         username = request.json['body']["username"]
         password = request.json['body']["password"]
-        # rpassword = request.json['passwordRepeat']
         
         # user1 = User.query.filter_by(email=email1).first()
 
@@ -50,52 +86,20 @@ def signup():
         # return redirect('/')
     return ""
 
-@app.route('/login1', methods=['POST'], strict_slashes=False)
+@app.route('/login', methods=['POST'], strict_slashes=False)
 def login():
-    # if request.method == "POST":
-    username1 = request.json["body"]["username"]
+    username = request.json["body"]["username"]
     password = request.json["body"]["password"]
-    #data1 = request.json["body"]["username"]
-    
-    
 
-    print(f"The information from react: {username1} and {password}")
-    
-    return ""
+    # print(f"The information from react: {username} and {password}")
 
+    # Check if the username and password are valid
+    user = User.query.filter_by(username=username, password=password).first()
 
-
-
-
-###############################################
-@app.route('/google/')
-def google():
-    # Google Oauth Config
-    # Get client_id and client_secret from environment variables
-    # For developement purpose you can directly put it
-    # here inside double quotes
-    GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
-    GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
-
-    CONF_URL = 'https://accounts.google.com/.well-known/openid-configuration'
-    oauth.register(
-        name='google',
-        client_id="606999141800-gotq56td8vu5ohi660jfcfhh4g2gmd9t.apps.googleusercontent.com",
-        client_secret="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",
-        server_metadata_url=CONF_URL,
-        client_kwargs={
-            'scope': 'openid email profile'
-        }
-    )
-
-    # Redirect to google_auth function
-    redirect_uri = url_for('google_auth', _external=True)
-    return oauth.google.authorize_redirect(redirect_uri)
-
-
-@app.route('/google/auth/')
-def google_auth():
-    token = oauth.google.authorize_access_token()
-    user = oauth.google.parse_id_token(token, None)
-    print(" Google User ", user)
-    return redirect('/signup')
+    # Check if the username and password are valid
+    if user:
+        # Return a success message
+        return jsonify({'message': 'Login successful'}, user)
+    else:
+        # Return an error message
+        return jsonify({'message': 'Invalid username or password'})
