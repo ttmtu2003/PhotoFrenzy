@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export async function signupUser(username, email, password, passwordRepeat) {
+export async function signupUser(fullName, username, password) {
   let status
   await axios.post('/signup', {
       crossDomain: true,
@@ -11,10 +11,10 @@ export async function signupUser(username, email, password, passwordRepeat) {
         "Access-Control-Allow-Origin": "*",
       },
       body: {
+        fullName,
         username,
-        email,
         password,
-        passwordRepeat
+        
       }
     })
     .then((res) => status = res.data )

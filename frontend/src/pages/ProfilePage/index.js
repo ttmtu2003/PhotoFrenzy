@@ -5,6 +5,8 @@ import mockData1 from "../../assets/pictures/mockData1.jpg"
 import mockData2 from "../../assets/pictures/mockData2.jpg"
 import mockData3 from "../../assets/pictures/mockData3.jpg"
 
+import React, { useState, useEffect } from 'react'
+
 const images = [
   {
     id: '123',
@@ -69,6 +71,21 @@ const images = [
 ];
 
 const ProfilePage = () => {
+  // const [data, setArticles] = useState([]);
+  // useEffect(()=>{
+  //   fetch('/data',{
+  //     'methods':'GET',
+  //     headers : {
+  //       'Content-Type':'application/json'
+  //     }
+  //   })
+  //   .then(response => response.json())
+  //   .then(response => setArticles(response))
+  //   .catch(error => console.log(error))
+
+  // },[])
+
+  // console.log("print data:", data);
 
   return (
     <div>
