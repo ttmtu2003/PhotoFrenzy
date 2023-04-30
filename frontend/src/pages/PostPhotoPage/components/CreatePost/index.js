@@ -9,9 +9,11 @@ const CreatePost = ({ className }) => {
   const { response, isLoading, error, postPhoto } = usePostPhoto();
   const fileInputRef = useRef(null);
 
+  const userToken = window.localStorage.getItem('token')
+
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
-    console.log("FILE", file)
+    // console.log("FILE", file)
   };
 
   const handleCaptionChange = (event) => {
@@ -20,12 +22,13 @@ const CreatePost = ({ className }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('caption', caption);
-    // formData.append('author_id', userId)
-    postPhoto(formData);
-  };
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('caption', caption)
+    formData.append('user_token', userToken)
+    postPhoto(formData)
+  }
+
   return (
     <div className='t-w-[40rem] t-h-fit t-bg-[#DADADA] t-rounded-lg'>
       <div className='t-flex t-h-[4rem] t-w-full t-justify-center t-items-center t-border-b-[2px] t-border-b-[#f4f4f4]'>
@@ -65,9 +68,9 @@ const CreatePost = ({ className }) => {
         </div>
         
       </form>
-      {/* {isLoading && <p>Uploading photo...</p>}
+      {/* {isLoading && <p>Uploading photo...</p>} */}
       {error && <p>Error: {error.message}</p>}
-      {response && <p>Photo uploaded successfully!</p>} */}
+      {/* {response && <p>Photo uploaded successfully!</p>} */}
     </div>
   )
 }

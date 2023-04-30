@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react'
 const images = [
   {
     id: '123',
-    thumbnail: mockData1,
+    thumbnail: mockData3,
     width: '10px',
     height: '30%',
     author: 'maya_12',

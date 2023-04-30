@@ -16,6 +16,7 @@ const usePostPhoto = () => {
       });
       setResponse(response.data);
       setIsLoading(false);
+      window.location.href = '/explore'
     } catch (error) {
       setError(error);
       setIsLoading(false);

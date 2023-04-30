@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const useGetComments = (postId) => {
+const useGetComments = ({ postId }) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchComments = async () => {
+    const getComments = async () => {
       try {
         const response = await axios.get(`/posts/${postId}/comments`);
         setComments(response.data);
@@ -18,7 +18,7 @@ const useGetComments = (postId) => {
       }
     };
 
-    fetchComments();
+    getComments();
   }, [postId]);
 
   return { comments, isLoading, error };

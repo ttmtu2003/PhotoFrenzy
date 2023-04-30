@@ -6,6 +6,7 @@ const Thumbnail = ({ post, className }) => {
   return (
     <StyledContainer className={className} elevation={3}>
       <StyledImage src={post.thumbnail} alt={post.title || "photo"} />
+      {/* <img src="data:image/jpeg;base64,{{ photo_data }}" alt="{{ caption }}"></img> */}
       <StyledOverlay>
           <StyledAuthor>
             <h1 className="t-w-full t-text-ellipsis t-whitespace-nowrap t-overflow-hidden t-font-semibold t-text-[14px]">{post.caption}</h1>
@@ -50,8 +51,6 @@ const StyledOverlay = styled.div`
   background: rgba(0, 0, 0, 0.6);
   color: #fff;
   transition: opacity 0.2s ease-in-out;
-
-
 `;
 
 const StyledContainer = styled(Paper)`

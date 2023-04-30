@@ -32,3 +32,22 @@ class User(UserMixin, db.Model):
         if self.password_hash is None:
             return False
         return check_password_hash(self.password_hash, password)
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    caption = db.Column(db.String(500), nullable=False)
+    photo_data = db.Column(db.LargeBinary)
+    user_token = db.Column(db.Integer, nullable=False)
+    likes = db.Column(db.Integer, default=0)
+
+    def __repr__(self):
+        return f"Photo('{self.caption}', '{self.photo_data}', '{self.user_token}', '{self.likes}')"
+
+    def serialize(self):
+      return {
+          'id': self.id,
+          'caption': self.caption,
+          'user_token': self.user_token,
+          'likes': self.likes,
+          'photo_data': self.photo_data
+      }

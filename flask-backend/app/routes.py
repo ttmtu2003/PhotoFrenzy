@@ -1,11 +1,11 @@
 import os
 from flask import render_template, flash, url_for, redirect, request, session,jsonify, json
-from app.models import User, db
+from app.models import User, db, Post
 from app import app
 import secrets
 from flask_login import login_user
 from werkzeug.security import generate_password_hash
-
+import base64
 
 @app.route("/")
 def home():
@@ -29,6 +29,8 @@ def get_time():
             "programming": "python"
         })
 
+
+################ SIGNUP ################
 @app.route('/signup', methods=['POST'], strict_slashes=False)
 def signup():
     try:
@@ -67,6 +69,7 @@ def signup():
         print(e)
         return jsonify({'message': 'Internal server error', 'status':'error'})
 
+################ LOGIN ################
 @app.route('/login', methods=['POST'], strict_slashes=False)
 def login():
   try:
@@ -92,3 +95,51 @@ def login():
   except Exception as e:
     print(e)
     return jsonify({'message': 'Internal server error', 'status': 'error'})
+
+    if user is not None and user.verify_password(password):
+      login_user(user)
+
+      return jsonify({'token': user.token, 'status': 'success'})
+    
+    # Return an error message
+    return jsonify({'message': 'Invalid username or password', 'status': 'error'})
+    
+  except Exception as e:
+    print(e)
+    return jsonify({'message': 'Internal server error', 'status': 'error'})
+
+
+
+################ POST PHOTO ################
+@app.route('/photos', methods=['POST'])
+def post_photo():
+    caption = request.form['caption']
+    user_token = request.form['user_token']
+    file = request.files['file']
+
+    # print('caption:', caption)
+    # print('user_id:', user_token)
+    # print('file:', file)
+
+    photo_data = file.read()
+    photo_data_base64 = base64.b64encode(photo_data).decode('utf-8') # convert bytes object to string
+
+    post = Post(caption=caption, photo_data=photo_data, user_token=user_token)
+    db.session.add(post)
+    db.session.commit()
+
+    return jsonify({'id': post.id, 'caption': post.caption, 'photo_data': photo_data_base64, 'user_token' : post.user_token}), 200
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+################ LOGIN ################
+
+################ LOGIN ################
+
+################ LOGIN ################
+
+################ LOGIN ################
+
+################ LOGIN ################

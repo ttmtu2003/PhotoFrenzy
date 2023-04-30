@@ -25,7 +25,7 @@ const Posts = ({ className, posts }) => {
       <div id="gallery" >
         {posts.map((post, index) => (
             <div onClick={() => handlePostClick(post)}>
-              <Thumbnail key={index} post={post} className='img-responsive' />
+              <Thumbnail key={index} post={post} className='hover:t-cursor-pointer hover:t-shadow-lg  img-responsive' />
             </div>
         ))}
 

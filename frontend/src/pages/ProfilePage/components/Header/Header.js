@@ -12,7 +12,7 @@ const mockData = {
 const Header = ({ className }) => {
 
   return (
-    <div className={cls(className, 't-ml-[4rem] t-flex')}>
+    <div className={cls(className, 't-ml-[3rem] t-flex')}>
       <Avatar img={mockData.profilePic} imgHeight="6rem" imgWidth="6rem" className="t-w-[6rem] t-h-[6rem]" />
 
       {/* name and bio */}
