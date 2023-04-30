@@ -4,6 +4,7 @@ import mockData1 from "../../assets/pictures/mockData1.jpg"
 import mockData2 from "../../assets/pictures/mockData2.jpg"
 import mockData3 from "../../assets/pictures/mockData3.jpg"
 import PostButton from "./components/PostButton/PostButton"
+import useUserPosts from "../ProfilePage/hooks/useGetPosts"
 
 const images = [
   {
@@ -69,12 +70,14 @@ const images = [
 ];
 
 const HomePage = () => {
+  const posts = useUserPosts({ userToken: '' })
+  // console.log("HOME PAGE", posts)
   return(
     <div className="t-h-full">
       <UserNavbar />
       <div>
         <PostButton />
-        <Posts posts={images} className="t-mt-[4rem]" />
+        <Posts posts={posts} className="t-mt-[4rem]" />
       </div>
     </div>
   )

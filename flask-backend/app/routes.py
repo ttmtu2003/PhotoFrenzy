@@ -136,10 +136,20 @@ if __name__ == '__main__':
 
 ################ GET PHOTOS ################
 @app.route('/posts', methods=['GET'])
-def get_user_posts():
+def get_posts():
     user_token = request.args.get('user_token')
-    # print(f"{user_token}.")
-    if user_token:
+    if user_token == '':
+        users = User.query.all()
+        serialized_posts = []
+        for user in users:
+            posts = Post.query.all()
+            for post in posts:
+                serialized_post = post.serialize()
+                serialized_post['full_name'] = user.full_name
+                serialized_post['photo_data'] = base64.b64encode(serialized_post['photo_data']).decode('utf-8')
+                serialized_posts.append(serialized_post)
+        return jsonify(serialized_posts), 200
+    elif user_token:
         user = User.query.filter_by(token=user_token).first()
         if user:
             posts = Post.query.filter_by(user_token=user_token).all()
@@ -151,9 +161,7 @@ def get_user_posts():
         else:
             return jsonify({'message': 'User not found'}), 404
     else:
-        posts = Post.query.all()
-        serialized_posts = [post.serialize() for post in posts]
-        return jsonify(serialized_posts), 200
+        return jsonify({'message': 'Invalid user token'}), 400
 
 ################ LOGIN ################
 
