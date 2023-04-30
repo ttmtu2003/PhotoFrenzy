@@ -1,5 +1,4 @@
 from flask import Flask, render_template, url_for, redirect, request
-from authlib.integrations.flask_client import OAuth
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 
@@ -11,9 +10,9 @@ load_dotenv()
 app = Flask(__name__)
 db = SQLAlchemy(app)
 
-app.config.from_object(Config)
+app.config['SESSION_COOKIE_DOMAIN'] = 'localhost.localdomain' # Set the session cookie domain
 
-oauth = OAuth(app)
+app.config.from_object(Config)
 
 #app.secret_key = os.getenv("SECRET_KEY")
 #app.secret_key = 'youcantbrokeit'
