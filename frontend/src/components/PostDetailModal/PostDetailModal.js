@@ -19,7 +19,7 @@ const PostDetailModal = ({ className, post, open, onClose }) => {
             {/* avatar */}
             <Row  className="t-items-center">
               <Col xs={3}><Avatar img={`data:image/jpeg;base64,${post.photo_data}`} className="t-w-[2.5rem] t-h-[2.5rem]" /></Col>
-              <Col xs={6} className="t-font-semibold"><h1>{post.full_name}</h1></Col>
+              <Col xs={6} className="t-font-semibold"><h1>{post.username}</h1></Col>
               <Col xs={2}><Like /></Col>
             </Row>
             {/* caption */}

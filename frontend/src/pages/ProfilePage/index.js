@@ -75,10 +75,10 @@ const images = [
 ];
 
 const ProfilePage = () => {
-  const userToken = window.localStorage.getItem('token')
+  const userId = window.localStorage.getItem('id')
 
   // user posts
-  const posts = useUserPosts({ userToken })
+  const posts = useUserPosts({ userId })
 
   // console.log("PSOT", posts)
 
