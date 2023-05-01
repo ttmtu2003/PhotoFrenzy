@@ -10,10 +10,16 @@ const SearchBar = () => {
   const history = useHistory();
   const searchRef = useRef()
   const [addMemberPopoverOpen, setAddMemberPopoverOpen] = useState(false)
-  const { users, error } = useGetUsers(query)
+
+  // curr user id
+  const userId = window.localStorage.getItem('id')
+
+  // get list of users
+  const { users, error } = useGetUsers(query, userId)
 
   const handleResultClick = (userId) => {
     history.push(`/users/${userId}`);
+    setAddMemberPopoverOpen((prev) => !prev)
   }
 
   return (

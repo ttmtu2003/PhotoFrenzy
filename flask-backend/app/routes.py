@@ -123,48 +123,51 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-################ GET PHOTOS ################
+################ GET FOLLOWING POSTS ################
+
 @app.route('/posts', methods=['GET'])
 def get_posts():
-    user_id = request.args.get('user_id')
-    if user_id == '':
-        users = User.query.all()
-        serialized_posts = []
-        for user in users:
-            posts = Post.query.all()
-            for post in posts:
-                serialized_post = post.serialize()
-                serialized_post['username'] = user.username
-                serialized_post['photo_data'] = base64.b64encode(serialized_post['photo_data']).decode('utf-8')
-                serialized_posts.append(serialized_post)
-        return jsonify(serialized_posts), 200
-    elif user_id:
-        user = User.query.filter_by(id=user_id).first()
-        if user:
-            posts = Post.query.filter_by(user_id=user_id).all()
-            serialized_posts = [post.serialize() for post in posts]
-            for post in serialized_posts:
-                post['username'] = user.username
-                post['photo_data'] = base64.b64encode(post['photo_data']).decode('utf-8')
-            return jsonify(serialized_posts), 200
-        else:
-            return jsonify({'message': 'User not found'}), 404
-    else:
-        return jsonify({'message': 'Invalid user id'}), 400
+  try:
+    curr_user_id = request.args.get('user_id')
+    current_user = User.query.get(curr_user_id)
 
+    # Get the IDs of the users followed by the current user
+    followed_ids = [user.id for user in current_user.followed]
+
+    # Get the posts of the users followed by the current user
+    posts = Post.query.filter(Post.user_id.in_(followed_ids)).all()
+
+    # Serialize the posts and include the username of the user who posted each post
+    serialized_posts = []
+    for post in posts:
+        user = User.query.get(post.user_id)
+        serialized_post = post.serialize()
+        serialized_post['username'] = user.username
+        serialized_post['photo_data'] = base64.b64encode(post.photo_data).decode('utf-8')
+        serialized_posts.append(serialized_post)
+
+    return jsonify(serialized_posts)
+
+  except Exception as e:
+      print(e)
+      return jsonify({'message': 'Server error'}), 500
 
 ################ GET USERS ################
 @app.route('/users', methods=['GET'])
 def search_users():
     search_query = request.args.get('search')
+    curr_user_id = request.args.get('user_id')
+
     if search_query:
         users = User.query.filter(User.username.ilike(f'%{search_query}%')).all()
-        filtered_users = [{'id': user.id, 'full_name': user.full_name, 'username': user.username, 'avatar': user.avatar, 'bio': user.bio} for user in users]
-        return jsonify(filtered_users)
     else:
         users = User.query.all()
-        all_users = [{'id': user.id, 'full_name': user.full_name, 'username': user.username, 'avatar': user.avatar, 'bio': user.bio} for user in users]
-        return jsonify(all_users)
+
+    # Filter out the current user from the search results
+    filtered_users = [{'id': user.id, 'username': user.username, 'avatar': user.avatar} for user in users if user.id != int(curr_user_id)]
+
+    return jsonify(filtered_users)
+
 
 ################ UPDATE PROFILE (NOT DONE) ################
 @app.route('/users', methods=['PUT'])
@@ -285,7 +288,23 @@ def is_following():
     return jsonify({'isFollowing': is_following})
 
 
-################ LOGIN ################
+################ GET PROFILE POSTS ################
+@app.route('/profile/posts', methods=['GET'])
+def get_my_posts():
+    user_id = request.args.get('user_id')
+
+    # Get the posts made by the current user
+    posts = Post.query.filter_by(user_id=user_id).all()
+
+    serialized_posts = []
+    for post in posts:
+        user = User.query.get(user_id)
+        serialized_post = post.serialize()
+        serialized_post['username'] = user.username
+        serialized_post['photo_data'] = base64.b64encode(post.photo_data).decode('utf-8')
+        serialized_posts.append(serialized_post)
+
+    return jsonify(serialized_posts)
 
 ################ LOGIN ################
 

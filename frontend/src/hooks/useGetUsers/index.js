@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const useGetUsers = (searchQuery) => {
+const useGetUsers = (searchQuery, userId) => {
   const [users, setUsers] = useState([])
   const [error, setError] = useState(null)
 
@@ -11,6 +11,7 @@ const useGetUsers = (searchQuery) => {
         const response = await axios.get('/users', {
           params: {
             search: searchQuery,
+            user_id: userId
           },
         })
         setUsers(response.data)
