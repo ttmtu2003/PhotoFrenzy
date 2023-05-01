@@ -4,7 +4,8 @@ import mockData1 from "../../assets/pictures/mockData1.jpg"
 import mockData2 from "../../assets/pictures/mockData2.jpg"
 import mockData3 from "../../assets/pictures/mockData3.jpg"
 import PostButton from "./components/PostButton/PostButton"
-import useUserPosts from "../ProfilePage/hooks/useGetPosts"
+import useGetPosts from "./hooks/useGetPosts"
+
 
 const images = [
   {
@@ -70,7 +71,10 @@ const images = [
 ];
 
 const HomePage = () => {
-  const posts = useUserPosts({ userId: '' })
+  const userId = window.localStorage.getItem('id')
+  
+  // get posts of all the users current user is following
+  const posts = useGetPosts({ userId })
   // console.log("HOME PAGE", posts)
   return(
     <div className="t-h-full">

@@ -6,6 +6,7 @@ import mockData2 from "../../assets/pictures/mockData2.jpg"
 import mockData3 from "../../assets/pictures/mockData3.jpg"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import useGetUserInfo from "../../hooks/useGetUserInfo"
+import useUserPosts from "../ProfilePage/hooks/useGetPosts"
 
 const images = [
   {
@@ -74,12 +75,15 @@ const OtherProfilePage = () => {
   const { id } = useParams()
 
   const userInfo = useGetUserInfo({ userId: id });
+  // user posts
+  const posts = useUserPosts({ userId: id })
+
 
   return (
     <div>
       <UserNavbar />
       <Header user={userInfo} className="t-mt-[6rem]" />
-      <Posts posts={images} />
+      <Posts posts={posts} />
     </div>
   )
 }

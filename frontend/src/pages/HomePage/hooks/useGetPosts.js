@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const useUserPosts = ({ userId }) => {
+const useGetPosts = ({ userId }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     async function fetchUserPosts() {
-      const res = await axios.get(`/profile/posts?user_id=${userId}`);
+      const res = await axios.get(`/posts?user_id=${userId}`);
       const userPosts = res.data;
+      // console.log("POSTS", res)
       setPosts(userPosts);
     }
 
@@ -16,4 +17,4 @@ const useUserPosts = ({ userId }) => {
   return posts;
 }
 
-export default useUserPosts;
+export default useGetPosts;
