@@ -16,6 +16,7 @@ const LoginForm = ( { className } ) => {
       window.location.href = '/explore'
       window.localStorage.setItem('token', data.token)
       window.localStorage.setItem('isAuthed', true)
+      window.localStorage.setItem('id', data.id)
     }
     else
       setErrorMsg(data.message)

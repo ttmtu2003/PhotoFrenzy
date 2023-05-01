@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const useUserPosts = ({ userToken }) => {
+const useUserPosts = ({ userId }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     async function fetchUserPosts() {
-      const res = await axios.get(`/posts?user_token=${userToken}`);
+      const res = await axios.get(`/posts?user_id=${userId}`);
       const userPosts = res.data;
       
       setPosts(userPosts);
     }
 
     fetchUserPosts();
-  }, [userToken]);
+  }, [userId]);
   return posts;
 }
 

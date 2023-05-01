@@ -2,6 +2,11 @@ from app import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+followers = db.Table('followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
+)
+
 class User(UserMixin, db.Model):
     """
     User class, which contains id, username, password, fullname and the products.
@@ -13,7 +18,14 @@ class User(UserMixin, db.Model):
     full_name = db.Column(db.String(100), nullable=True)
     bio = db.Column(db.String(20), default='')
     avatar = db.Column(db.LargeBinary)
+    follower_count = db.Column(db.Integer, default=0)
+    following_count = db.Column(db.Integer, default=0)
     active = db.Column(db.Boolean, default=False)
+    followed = db.relationship(
+        'User', secondary=followers,
+        primaryjoin=(followers.c.follower_id == id),
+        secondaryjoin=(followers.c.followed_id == id),
+        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -34,23 +46,38 @@ class User(UserMixin, db.Model):
         if self.password_hash is None:
             return False
         return check_password_hash(self.password_hash, password)
+    
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+            user.follower_count += 1
+            self.following_count += 1
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+            user.follower_count -= 1
+            self.following_count -= 1
+
+    def is_following(self, user):
+        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     caption = db.Column(db.String(500), nullable=False)
     photo_data = db.Column(db.LargeBinary)
-    user_token = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
     likes = db.Column(db.Integer, default=0)
 
     def __repr__(self):
-        return f"Photo('{self.caption}', '{self.photo_data}', '{self.user_token}', '{self.likes}')"
+        return f"Photo('{self.caption}', '{self.photo_data}', '{self.user_id}', '{self.likes}')"
 
     def serialize(self):
       return {
           'id': self.id,
           'caption': self.caption,
-          'user_token': self.user_token,
-          'full_name': '',
+          'user_id': self.user_id,
+          'username': '',
           'likes': self.likes,
           'photo_data': self.photo_data
       }

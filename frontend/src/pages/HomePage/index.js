@@ -70,7 +70,7 @@ const images = [
 ];
 
 const HomePage = () => {
-  const posts = useUserPosts({ userToken: '' })
+  const posts = useUserPosts({ userId: '' })
   // console.log("HOME PAGE", posts)
   return(
     <div className="t-h-full">

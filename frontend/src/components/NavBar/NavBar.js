@@ -8,6 +8,7 @@ const UserNavbar = () => {
   const handleLogout = () => {
     window.localStorage.setItem('isAuthed', false)
     window.localStorage.removeItem('token')
+    window.localStorage.removeItem('id')
     window.location.href = "/"
   }
 

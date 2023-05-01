@@ -69,6 +69,7 @@ def signup():
         print(e)
         return jsonify({'message': 'Internal server error', 'status':'error'})
 
+
 ################ LOGIN ################
 @app.route('/login', methods=['POST'], strict_slashes=False)
 def login():
@@ -87,19 +88,7 @@ def login():
     if user is not None and user.verify_password(password):
       login_user(user)
 
-      return jsonify({'token': user.token, 'status': 'success'})
-    
-    # Return an error message
-    return jsonify({'message': 'Invalid username or password', 'status': 'error'})
-    
-  except Exception as e:
-    print(e)
-    return jsonify({'message': 'Internal server error', 'status': 'error'})
-
-    if user is not None and user.verify_password(password):
-      login_user(user)
-
-      return jsonify({'token': user.token, 'status': 'success'})
+      return jsonify({'token': user.token, 'id': user.id, 'status': 'success'})
     
     # Return an error message
     return jsonify({'message': 'Invalid username or password', 'status': 'error'})
@@ -114,21 +103,21 @@ def login():
 @app.route('/photos', methods=['POST'])
 def post_photo():
     caption = request.form['caption']
-    user_token = request.form['user_token']
+    user_id = request.form['user_id']
     file = request.files['file']
 
     # print('caption:', caption)
-    # print('user_id:', user_token)
+    # print('user_id:', user_id)
     # print('file:', file)
 
     photo_data = file.read()
     photo_data_base64 = base64.b64encode(photo_data).decode('utf-8') # convert bytes object to string
 
-    post = Post(caption=caption, photo_data=photo_data, user_token=user_token)
+    post = Post(caption=caption, photo_data=photo_data, user_id=user_id)
     db.session.add(post)
     db.session.commit()
 
-    return jsonify({'id': post.id, 'caption': post.caption, 'photo_data': photo_data_base64, 'user_token' : post.user_token}), 200
+    return jsonify({'id': post.id, 'caption': post.caption, 'photo_data': photo_data_base64, 'user_id' : post.user_id}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -137,31 +126,32 @@ if __name__ == '__main__':
 ################ GET PHOTOS ################
 @app.route('/posts', methods=['GET'])
 def get_posts():
-    user_token = request.args.get('user_token')
-    if user_token == '':
+    user_id = request.args.get('user_id')
+    if user_id == '':
         users = User.query.all()
         serialized_posts = []
         for user in users:
             posts = Post.query.all()
             for post in posts:
                 serialized_post = post.serialize()
-                serialized_post['full_name'] = user.full_name
+                serialized_post['username'] = user.username
                 serialized_post['photo_data'] = base64.b64encode(serialized_post['photo_data']).decode('utf-8')
                 serialized_posts.append(serialized_post)
         return jsonify(serialized_posts), 200
-    elif user_token:
-        user = User.query.filter_by(token=user_token).first()
+    elif user_id:
+        user = User.query.filter_by(id=user_id).first()
         if user:
-            posts = Post.query.filter_by(user_token=user_token).all()
+            posts = Post.query.filter_by(user_id=user_id).all()
             serialized_posts = [post.serialize() for post in posts]
             for post in serialized_posts:
-                post['full_name'] = user.full_name
+                post['username'] = user.username
                 post['photo_data'] = base64.b64encode(post['photo_data']).decode('utf-8')
             return jsonify(serialized_posts), 200
         else:
             return jsonify({'message': 'User not found'}), 404
     else:
-        return jsonify({'message': 'Invalid user token'}), 400
+        return jsonify({'message': 'Invalid user id'}), 400
+
 
 ################ GET USERS ################
 @app.route('/users', methods=['GET'])
@@ -210,13 +200,90 @@ def update_user_profile():
         print(e)
         return jsonify({'message': 'Server error'}), 500
 
-################ LOGIN ################
+################ GET USER DETAIL ################
+@app.route('/user-detail', methods=['GET'])
+def get_user_info():
+    user_id = request.args.get('id')
+    user = User.query.get(user_id)
+    if user:
+        user_info = {
+            'id': user.id,
+            'username': user.username,
+            'full_name': user.full_name,
+            'bio': user.bio,
+            'avatar': user.avatar,
+            'follower_count': user.follower_count,
+            'following_count': user.following_count,
+        }
+        return jsonify(user_info)
+    else:
+        return jsonify({'error': 'User not found'})
 
-################ LOGIN ################
 
-################ LOGIN ################
+################ FOLLOW USER ################
+@app.route('/follow', methods=['POST'])
+def follow_user():
+    user_id = request.args.get('user_id')
+    curr_user_id = request.args.get('curr_user_id')
 
-################ LOGIN ################
+    user_to_follow = User.query.get(user_id)
+    print(f"user, {user_id}")
+    if user_to_follow:
+        current_user = User.query.get(curr_user_id)
+        current_user.follow(user_to_follow)
+        db.session.commit()
+        
+        # Check if the current user is following the user being unfollowed
+        is_following = current_user.is_following(user_to_follow)
+
+        return jsonify({'follower': {
+            'id': user_to_follow.id,
+            'username': user_to_follow.username,
+            'followingCount': current_user.following_count,
+            'isFollowing' : is_following,
+        }, 'status': 'success'})
+    else:
+        return jsonify({'error': 'User not found', 'status': 'error'})
+
+
+################ UNFOLLOW ################
+@app.route('/unfollow', methods=['POST'])
+def unfollow_user():
+    user_id = request.args.get('user_id')
+    curr_user_id = request.args.get('curr_user_id')
+
+    user_to_unfollow = User.query.get(user_id)
+    if user_to_unfollow:
+        current_user = User.query.get(curr_user_id)
+        current_user.unfollow(user_to_unfollow)
+        db.session.commit()
+        
+        # Check if the current user is following the user being unfollowed
+        is_following = current_user.is_following(user_to_unfollow)
+
+        return jsonify({'user': {
+            'id': user_to_unfollow.id,
+            'username': user_to_unfollow.username,
+            'followerCount': current_user.follower_count,
+            'isFollowing' : is_following,
+        }, 'status': 'success'})
+    else:
+        return jsonify({'error': 'User not found', 'status': 'error'})
+    
+
+################ CHECK IF FOLLOWING ################
+@app.route('/is-following', methods=['GET'])
+def is_following():
+    user_id = request.args.get('user_id')
+    curr_user_id = request.args.get('curr_user_id')
+    current_user = User.query.get(curr_user_id)
+    user = User.query.get(user_id)
+    print(f"{user_id}, follow")
+    # Check if the current user is following the specified user
+    is_following = current_user.is_following(user)
+    
+    return jsonify({'isFollowing': is_following})
+
 
 ################ LOGIN ################
 

@@ -9,7 +9,7 @@ const CreatePost = ({ className }) => {
   const { response, isLoading, error, postPhoto } = usePostPhoto();
   const fileInputRef = useRef(null);
 
-  const userToken = window.localStorage.getItem('token')
+  const user_id = window.localStorage.getItem('id')
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -25,7 +25,7 @@ const CreatePost = ({ className }) => {
     const formData = new FormData()
     formData.append('file', file)
     formData.append('caption', caption)
-    formData.append('user_token', userToken)
+    formData.append('user_id', user_id)
     postPhoto(formData)
   }
 
