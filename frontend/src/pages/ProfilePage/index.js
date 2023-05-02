@@ -4,12 +4,13 @@ import UserNavbar from "../../components/NavBar/NavBar"
 import Posts from "../../components/Posts/Posts"
 // local
 import Header from "./components/Header/Header"
+import useUserPosts from "./hooks/useGetPosts"
 // assets
 import mockData1 from "../../assets/pictures/mockData1.jpg"
 import mockData2 from "../../assets/pictures/mockData2.jpg"
 import mockData3 from "../../assets/pictures/mockData3.jpg"
 // hook
-import useUserPosts from "./hooks/useGetPosts"
+import useGetUserInfo from '../../hooks/useGetUserInfo'
 
 const images = [
   {
@@ -77,15 +78,15 @@ const images = [
 const ProfilePage = () => {
   const userId = window.localStorage.getItem('id')
 
-  // user posts
+  // user 
   const posts = useUserPosts({ userId })
-
+  const userInfo = useGetUserInfo({ userId })
   // console.log("PSOT", posts)
 
   return (
     <div>
       <UserNavbar />
-      <Header className="t-mt-[6rem]" />
+      <Header user={userInfo} className="t-mt-[6rem]" />
       <Posts posts={posts} />
     </div>
   )

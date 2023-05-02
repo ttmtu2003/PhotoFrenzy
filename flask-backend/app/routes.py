@@ -137,14 +137,8 @@ def get_posts():
     # Get the posts of the users followed by the current user
     posts = Post.query.filter(Post.user_id.in_(followed_ids)).all()
 
-    # Serialize the posts and include the username of the user who posted each post
-    serialized_posts = []
-    for post in posts:
-        user = User.query.get(post.user_id)
-        serialized_post = post.serialize()
-        serialized_post['username'] = user.username
-        serialized_post['photo_data'] = base64.b64encode(post.photo_data).decode('utf-8')
-        serialized_posts.append(serialized_post)
+    # Serialize the posts and include the username and avatar of the user who posted each post
+    serialized_posts = [post.serialize() for post in posts]
 
     return jsonify(serialized_posts)
 
@@ -170,38 +164,33 @@ def search_users():
 
 
 ################ UPDATE PROFILE (NOT DONE) ################
-@app.route('/users', methods=['PUT'])
-def update_user_profile():
-    # print(f{'request.json['body']['user_token']'})
-    
+@app.route('/profile', methods=['PUT'])
+def update_profile():
     try:
-      user_token = request.headers.get('Authorization').split(' ')[1]
+        user_id = request.args.get('user_id')
+        user = User.query.get(user_id)
 
-      print(f"HIII {user_token}.")
-      # Get the user object
-      user = User.query.get(user_token)
+        # Update the user's bio if provided
+        bio = request.json.get('bio')
+        if bio is not None:
+            user.bio = bio
 
-      if not user:
-          return jsonify({'message': 'User not found'}), 404
+        # Update the user's avatar if provided
+        avatar = request.json.get('avatar')
+        if avatar is not None:
+            user.avatar = avatar.encode()
 
-      # Update the user profile
-      field = request.json['field']
-      value = request.json['value']
-      setattr(user, field, value)
-      db.session.commit()
+        db.session.commit()
 
-      return jsonify({
+        return jsonify({
           'id': user.id,
           'username': user.username,
-          'avatar': user.avatar,
+          'avatar': base64.b64encode(user.avatar).decode('utf-8'),
           'bio': user.bio,
-          # 'followers': user.followers,
-          # 'followings': user.followings
-      }), 200
-
+        }), 200
     except Exception as e:
-        print(e)
-        return jsonify({'message': 'Server error'}), 500
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)})
 
 ################ GET USER DETAIL ################
 @app.route('/user-detail', methods=['GET'])
@@ -209,12 +198,16 @@ def get_user_info():
     user_id = request.args.get('id')
     user = User.query.get(user_id)
     if user:
+        avatar_data = user.avatar
+        avatar = None
+        if avatar_data is not None:
+            avatar = f'{avatar_data.decode("utf-8")}'
         user_info = {
             'id': user.id,
             'username': user.username,
             'full_name': user.full_name,
             'bio': user.bio,
-            'avatar': user.avatar,
+            'avatar': avatar,
             'follower_count': user.follower_count,
             'following_count': user.following_count,
         }
@@ -299,8 +292,13 @@ def get_my_posts():
     serialized_posts = []
     for post in posts:
         user = User.query.get(user_id)
+        avatar_data = user.avatar
+        avatar = None
+        if avatar_data is not None:
+            avatar = f'{avatar_data.decode("utf-8")}'
         serialized_post = post.serialize()
         serialized_post['username'] = user.username
+        serialized_post['avatar'] = avatar
         serialized_post['photo_data'] = base64.b64encode(post.photo_data).decode('utf-8')
         serialized_posts.append(serialized_post)
 
