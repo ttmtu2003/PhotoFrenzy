@@ -1,8 +1,9 @@
 import { Col, Modal, ModalBody, ModalHeader, Row } from "reactstrap"
 import cls from 'classnames'
 import './style.scss'
-import FavoriteIcon from "@material-ui/icons/Favorite";
+// avatar
 import Avatar from "../Avatar/Avatar";
+// local
 import Comment from "./Comment/Comment";
 import Like from "./Like/Like";
 
@@ -18,8 +19,8 @@ const PostDetailModal = ({ className, post, open, onClose }) => {
           <Col xs={4} className="pt-4">
             {/* avatar */}
             <Row  className="t-items-center">
-              <Col xs={3}><Avatar img={`data:image/jpeg;base64,${post.photo_data}`} className="t-w-[2.5rem] t-h-[2.5rem]" /></Col>
-              <Col xs={6} className="t-font-semibold"><h1>{post.username}</h1></Col>
+              <Col xs={2}><Avatar img={post.avatar ? `${post.avatar}`: null} className="t-w-[2.5rem] t-h-[2.5rem]" /></Col>
+              <Col xs={6} className="ml-2 t-font-semibold"><h1>{post.username}</h1></Col>
               <Col xs={2}><Like /></Col>
             </Row>
             {/* caption */}

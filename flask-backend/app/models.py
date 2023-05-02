@@ -1,6 +1,7 @@
 from app import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+import base64
 
 followers = db.Table('followers',
     db.Column('follower_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
@@ -60,7 +61,9 @@ class User(UserMixin, db.Model):
             self.following_count -= 1
 
     def is_following(self, user):
-        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
+      if user is None:
+          return False
+      return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -73,11 +76,16 @@ class Post(db.Model):
         return f"Photo('{self.caption}', '{self.photo_data}', '{self.user_id}', '{self.likes}')"
 
     def serialize(self):
-      return {
+      user = User.query.get(self.user_id)
+      serialized_post = {
           'id': self.id,
           'caption': self.caption,
           'user_id': self.user_id,
-          'username': '',
+          'username': user.username,
+          'avatar': None,
           'likes': self.likes,
-          'photo_data': self.photo_data
+          'photo_data': base64.b64encode(self.photo_data).decode('utf-8')
       }
+      if user.avatar is not None:
+            serialized_post['avatar'] = base64.b64encode(user.avatar).decode('utf-8')
+      return serialized_post

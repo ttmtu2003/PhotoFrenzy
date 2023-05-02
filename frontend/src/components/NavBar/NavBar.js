@@ -28,9 +28,7 @@ const UserNavbar = () => {
           </NavLink>
         </NavItem>
         <NavItem>
-
-            <Button onClick={handleLogout} className="active:t-bg-[#098DED] t-outline-0 t-border-[#098DED] hover:t-bg-[#098DED] t-text-[#098DED] hover:t-text-white">Logout</Button>
-
+          <Button onClick={handleLogout} className="active:t-bg-[#098DED] t-outline-0 t-border-[#098DED] hover:t-bg-[#098DED] t-text-[#098DED] hover:t-text-white ml-2">Logout</Button>
         </NavItem>
       </Nav>
     </Navbar>

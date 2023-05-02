@@ -9,7 +9,7 @@ const Thumbnail = ({ post, className }) => {
       <StyledOverlay>
           <StyledAuthor>
             <h1 className="t-w-full t-text-ellipsis t-whitespace-nowrap t-overflow-hidden t-font-semibold t-text-[14px]">{post.caption}</h1>
-            <p className="t-font-light t-text-[11px] mt-1">posted by <span className="t-font-semibold">{post.full_name}</span></p>
+            <p className="t-font-light t-text-[11px] mt-1">posted by <span className="t-font-semibold">{post.username}</span></p>
           </StyledAuthor>
       </StyledOverlay>
     </StyledContainer>
