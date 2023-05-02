@@ -87,5 +87,5 @@ class Post(db.Model):
           'photo_data': base64.b64encode(self.photo_data).decode('utf-8')
       }
       if user.avatar is not None:
-            serialized_post['avatar'] = base64.b64encode(user.avatar).decode('utf-8')
+            serialized_post['avatar'] = f'{user.avatar.decode("utf-8")}'
       return serialized_post

@@ -19,7 +19,7 @@ const PostDetailModal = ({ className, post, open, onClose }) => {
           <Col xs={4} className="pt-4">
             {/* avatar */}
             <Row  className="t-items-center">
-              <Col xs={2}><Avatar img={post.avatar ? `${post.avatar}`: null} className="t-w-[2.5rem] t-h-[2.5rem]" /></Col>
+              <Col xs={2}>{post.avatar !== undefined && <Avatar img={post.avatar ? `${post.avatar}`: null} className="t-w-[2.5rem] t-h-[2.5rem]" />}</Col>
               <Col xs={6} className="ml-2 t-font-semibold"><h1>{post.username}</h1></Col>
               <Col xs={2}><Like /></Col>
             </Row>

@@ -158,8 +158,7 @@ def search_users():
         users = User.query.all()
 
     # Filter out the current user from the search results
-    filtered_users = [{'id': user.id, 'username': user.username, 'avatar': user.avatar} for user in users if user.id != int(curr_user_id)]
-
+    filtered_users = [{'id': user.id, 'username': user.username, 'avatar': f'{user.avatar.decode("utf-8")}' if user.avatar else None} for user in users if user.id != int(curr_user_id)]
     return jsonify(filtered_users)
 
 

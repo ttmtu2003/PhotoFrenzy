@@ -51,7 +51,7 @@ const SearchBar = () => {
             <ul>
               {users.map(user => (
                 <li key={user.id} className="hover:t-bg-[#F4F4F4] t-items-center py-2 px-3 t-flex hover:t-cursor-pointer" onClick={() => handleResultClick(user.id)}>
-                  <Avatar img={user.avatarUrl} className="t-w-[2rem] t-h-[2rem]" />
+                  <Avatar img={user.avatar} className="t-w-[2rem] t-h-[2rem]" />
                   <p className='t-font-semibold t-text-[15px] ml-2'>{user.username}</p>
                 </li>
               ))}

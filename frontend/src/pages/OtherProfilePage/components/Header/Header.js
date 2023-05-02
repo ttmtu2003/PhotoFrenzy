@@ -50,7 +50,7 @@ const Header = ({ className, user }) => {
 
   return (
     <div className={cls(className, 't-ml-[3rem] t-flex')}>
-      <Avatar img={user.avatar} imgHeight="6rem" imgWidth="6rem" className="t-w-[6rem] t-h-[6rem]" />
+      {user.avatar !== undefined && <Avatar img={user.avatar} imgHeight="6rem" imgWidth="6rem" className="t-w-[6rem] t-h-[6rem]" />}
 
       {/* name and bio */}
       <div className="t-ml-[2rem] t-flex t-flex-1 t-flex-col t-justify-center">
