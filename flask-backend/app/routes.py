@@ -149,6 +149,7 @@ def get_posts():
 ################ GET USERS ################
 @app.route('/users', methods=['GET'])
 def search_users():
+  try:
     search_query = request.args.get('search')
     curr_user_id = request.args.get('user_id')
 
@@ -160,7 +161,10 @@ def search_users():
     # Filter out the current user from the search results
     filtered_users = [{'id': user.id, 'username': user.username, 'avatar': f'{user.avatar.decode("utf-8")}' if user.avatar else None} for user in users if user.id != int(curr_user_id)]
     return jsonify(filtered_users)
-
+ 
+  except Exception as e:
+    db.session.rollback()
+    return jsonify({'success': False, 'error': str(e)})
 
 ################ UPDATE PROFILE (NOT DONE) ################
 @app.route('/profile', methods=['PUT'])
