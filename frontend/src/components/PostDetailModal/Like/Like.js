@@ -5,11 +5,17 @@ import useLikePost from './hooks/useLikePost';
 const Like = ({ postId, userId }) => {
   // const { likePost, unlikePost, isLoading, error, isLiked } = useLikePost(postId, userId);
 
-  const [isLiked, setIsLiked] = useState(false) // temp use
+  // const [isLiked, setIsLiked] = useState(false) // temp use
+  userId = window.localStorage.getItem('id');
+  
+  const { likePost, unlikePost, isLoading, error, isLiked, myInteger } = useLikePost(postId, userId);
+
+  console.log("checking alllike value: ", myInteger);
 
   const handleClick = () => {
-    // likePost({ postId, userId })
-    setIsLiked((prev) => !prev)
+    likePost({ postId, userId })
+    // setIsLiked((prev) => !prev)
+    
   }
 
   // handle like logic

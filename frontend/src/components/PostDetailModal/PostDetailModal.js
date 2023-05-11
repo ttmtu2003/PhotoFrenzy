@@ -21,14 +21,14 @@ const PostDetailModal = ({ className, post, open, onClose }) => {
             <Row  className="t-items-center">
               <Col xs={2}>{post.avatar !== undefined && <Avatar img={post.avatar ? `${post.avatar}`: null} className="t-w-[2.5rem] t-h-[2.5rem]" />}</Col>
               <Col xs={6} className="ml-2 t-font-semibold"><h1>{post.username}</h1></Col>
-              <Col xs={2}><Like /></Col>
+              <Col xs={2}><Like postId={post.id}/></Col>
             </Row>
             {/* caption */}
             <Row>
               <Col className="mt-2 t-flex t-flex-wrap"><p>{post.caption}</p></Col>
             </Row>
             <Row>
-              <Comment className="mt-3" />
+              <Comment className="mt-3" postId={post.id}/>
             </Row>
           </Col>
         </Row>  

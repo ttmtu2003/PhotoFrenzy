@@ -1,6 +1,6 @@
 import os
 from flask import render_template, flash, url_for, redirect, request, session,jsonify, json
-from app.models import User, db, Post
+from app.models import User, db, Post, Comment, Like
 from app import app
 import secrets
 from flask_login import login_user
@@ -307,8 +307,111 @@ def get_my_posts():
 
     return jsonify(serialized_posts)
 
-################ LOGIN ################
+################ COMMENTS ################
+@app.route('/posts/<int:postId>/comments', methods=['GET'])
+def get_my_comments(postId):
+    '''
+    example postid pass
+    '''
+    # postId = 1
+    
+    # user1 = User.query.get(postId)
+    
+    # comm1 = user1.comments.all()
+    
+    # comm2 = Comment.query.filter_by(post_id=postId)
+    
+    # serialized_posts = []
+    # for comm in comm2:
+    #     temp = comm.serialize()
+    #     temp['id'] = comm.id
+    #     temp['post_id'] = postId
+    #     temp['commenter_id'] = comm.author_id
+    #     temp['content'] = comm.text
+    #     serialized_posts.append(temp)
+    
+    # print(serialized_posts)
+        
+    '''
+    real postid been pass
+    '''
+    post1 = Post.query.get(postId)
+    
+    comm1 = post1.comments.all()
+    
+    # print("-----------", temp2)
+    # print("-----------", user1.username)
+    
+    serialized_posts = []
+    for comm in comm1:
+        temp = comm.serialize()
+        temp['id'] = comm.id
+        temp['post_id'] = comm.post_id
+        temp['commenter_id'] = comm.author_id
+        temp['content'] = comm.text
+        
+        user1 = User.query.get(comm.author_id)
+        
+        temp['commenter_username'] = user1.username
+        
+        temp['commenter_picture'] = user1.avatar.decode("utf-8")
+        serialized_posts.append(temp)
 
-################ LOGIN ################
+        
+    # print(serialized_posts)
+    # print("user information: ", comm1.text)
+    # return jsonify({'message':'you will see this message!!'})
+    return jsonify(serialized_posts)
+
+################ LIKE STATUS OF POST ################
+@app.route('/posts/<int:post_id>/likes', methods=['GET'])
+def get_likes(post_id):
+    status_like = False
+    user_id = request.args.get('user_id')
+    
+    # print(f"{user_id} + {post_id}")
+    post1 = Post.query.get(post_id)
+    like1 = Like.query.filter_by(user_id=user_id, post_id=post_id).count()
+    if like1 > 0:
+        status_like = True
+    
+    return jsonify([{"total_likes": post1.total_likes},{"status_like": status_like}])
+
+################ LIKE POST ################
+@app.route('/posts/<int:post_id>/likes', methods=['POST'])
+def like_post(post_id):
+    
+    user_id = request.json.get('user_id')
+    
+    post1 = Post.query.get(post_id)
+    
+    post1.total_likes += 1
+    
+    new_like = Like(user_id=user_id, post_id=post_id)
+    db.session.add(new_like)
+    
+    db.session.commit()
+
+    return jsonify({})
+
+################ UNLIKE POST ################
+@app.route('/posts/<int:post_id>/likes', methods=['DELETE'])
+def unlike_post(post_id):
+    user_id = request.args.get('user_id')
+    
+    like1 = Like.query.filter_by(user_id=user_id, post_id=post_id).count()
+    temp = Like.query.filter_by(user_id=user_id, post_id=post_id).first() 
+    post1 = Post.query.filter_by(id=post_id, user_id=user_id).first()
+   
+    if like1 > 0:
+        db.session.delete(temp)  # Delete the user object
+        post1.total_likes -= 1
+        db.session.commit()
+        
+        print("I FOUND THE LIKE RECORDED ")
+        
+        return jsonify({'success:': True})
+    print("YOU HAVE CLICK THE UNLIKE BUTTON????????")
+    return jsonify({})
 
 ################ LOGIN ################

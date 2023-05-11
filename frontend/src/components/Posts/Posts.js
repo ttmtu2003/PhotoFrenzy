@@ -19,6 +19,8 @@ const Posts = ({ className, posts }) => {
     setOpen(false)
   }
 
+  console.log("selectpost: ",selectedPost);
+  
   return (
     <div className={cls("p-3", className)}>
       {/* post content */}

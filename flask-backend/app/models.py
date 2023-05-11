@@ -27,6 +27,9 @@ class User(UserMixin, db.Model):
         primaryjoin=(followers.c.follower_id == id),
         secondaryjoin=(followers.c.followed_id == id),
         backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
+    
+    comments = db.relationship('Comment', backref='user', lazy='dynamic')
+    likes = db.relationship('Like', backref='user', lazy=True)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -70,7 +73,11 @@ class Post(db.Model):
     caption = db.Column(db.String(500), nullable=False)
     photo_data = db.Column(db.LargeBinary)
     user_id = db.Column(db.Integer, nullable=False)
-    likes = db.Column(db.Integer, default=0)
+    total_likes = db.Column(db.Integer, default=0)
+    
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
+    likes = db.relationship('Like', backref='post', lazy=True)
+
 
     def __repr__(self):
         return f"Photo('{self.caption}', '{self.photo_data}', '{self.user_id}', '{self.likes}')"
@@ -83,9 +90,38 @@ class Post(db.Model):
           'user_id': self.user_id,
           'username': user.username,
           'avatar': None,
-          'likes': self.likes,
+          'likes': self.total_likes,
           'photo_data': base64.b64encode(self.photo_data).decode('utf-8')
       }
       if user.avatar is not None:
             serialized_post['avatar'] = f'{user.avatar.decode("utf-8")}'
       return serialized_post
+  
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(200))
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+
+    def __repr__(self):
+        return '<Comment {}>'.format(self.text)
+    
+    def serialize(self):
+    #   user1 = User.query.get(self.author_id)
+      serialized_post = {
+          'id': None,
+          'post_id': None,
+          'commenter_id': None,
+          'content': None,
+          'commenter_username': None,
+          'commenter_picture': None,
+      }
+      return serialized_post
+  
+class Like(db.Model):
+    
+    id = db.Column(db.Integer, primary_key=True)
+    
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))

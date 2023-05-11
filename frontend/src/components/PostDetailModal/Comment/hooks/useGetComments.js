@@ -6,6 +6,7 @@ const useGetComments = ({ postId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // postId = window.localStorage.getItem('id');
   useEffect(() => {
     const getComments = async () => {
       try {
@@ -21,6 +22,7 @@ const useGetComments = ({ postId }) => {
     getComments();
   }, [postId]);
 
+  // console.log("data:",comments);
   return { comments, isLoading, error };
 };
 

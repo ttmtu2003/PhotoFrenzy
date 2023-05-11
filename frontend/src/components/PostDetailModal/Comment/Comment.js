@@ -21,7 +21,7 @@ const Comment = ({ className, postId, userId }) => {
     }
   }
 
-  // const { comments, error, isLoading } = useGetComments({ postId })
+  const { comments, error, isLoading } = useGetComments({ postId })
   // const { postComment, isLoading, error } = usePostComment();
 
   // post comment
@@ -51,6 +51,7 @@ const Comment = ({ className, postId, userId }) => {
     },
   ]
 
+  console.log("hererere: ", comments)
   return (
     <div className={className}>
       <Form onSubmit={handlePostComment}>
@@ -71,7 +72,7 @@ const Comment = ({ className, postId, userId }) => {
         </div>
       </Form>
       <ul>
-        {mockComments.map((comment, index) => (
+        {comments.map((comment, index) => (
           <li key={index} className="mb-4 ml-2 t-flex">
             <Row className='t-flex t-items-center'>
               <Col>
