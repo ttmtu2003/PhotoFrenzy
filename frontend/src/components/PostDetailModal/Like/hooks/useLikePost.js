@@ -5,23 +5,28 @@ const useLikePost = (postId, userId) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
+  const [totalLikes, setTotalLikes] = useState(null);;
 
-  // get user like status of post
+  // get total likes and like status
   useEffect(() => {
-    axios.get(`/posts/${postId}/likes?user_id=${userId}`)
+    const response = axios.get(`/posts/${postId}/likes?user_id=${userId}`)
       .then(response => {
-        setIsLiked(response.data.length > 0);
+        const { total_likes, status_like } = response.data
+        setIsLiked(status_like);
+        setTotalLikes(total_likes);
+
       })
       .catch(error => {
         console.log(error);
       });
   }, [postId, userId]);
 
+
   // like post
   const likePost = () => {
     setIsLoading(true);
     axios.post(`/posts/${postId}/likes`, { user_id: userId })
-      .then(response => {
+      .then(() => {
         setIsLoading(false);
         setIsLiked(true);
         setError(null);
@@ -47,7 +52,7 @@ const useLikePost = (postId, userId) => {
       });
   };
 
-  return { likePost, unlikePost, isLoading, error, isLiked };
+  return { likePost, unlikePost, isLoading, error, isLiked, totalLikes, setTotalLikes, setIsLiked };
 };
 
 export default useLikePost;
