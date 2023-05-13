@@ -16,8 +16,8 @@ const useGetUsers = (searchQuery, userId) => {
         })
         setUsers(response.data)
         setError(null)
-      } catch (error) {
-        setError(error.response.data.message)
+      } catch (error) {     
+          setError(error.message)
       }
     }
 
