@@ -12,7 +12,7 @@ class User(UserMixin, db.Model):
     """
     User class, which contains id, username, password, fullname and the products.
     """
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     token = db.Column(db.Integer)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password_hash = db.Column(db.String(20))
@@ -107,15 +107,17 @@ class Comment(db.Model):
         return '<Comment {}>'.format(self.text)
     
     def serialize(self):
-    #   user1 = User.query.get(self.author_id)
+      user = User.query.get(self.author_id)
       serialized_post = {
-          'id': None,
-          'post_id': None,
-          'commenter_id': None,
-          'content': None,
-          'commenter_username': None,
+          'id': self.id,
+          'post_id': self.post_id,
+          'commenter_id': self.author_id,
+          'content': self.text,
+          'commenter_username': user.username,
           'commenter_picture': None,
       }
+      if user.avatar is not None:
+            serialized_post['commenter_picture'] = f'{user.avatar.decode("utf-8")}'
       return serialized_post
   
 class Like(db.Model):

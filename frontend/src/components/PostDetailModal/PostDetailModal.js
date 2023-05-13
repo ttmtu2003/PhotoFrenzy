@@ -28,7 +28,7 @@ const PostDetailModal = ({ className, post, open, onClose }) => {
               <Col className="mt-2 t-flex t-flex-wrap"><p>{post.caption}</p></Col>
             </Row>
             <Row>
-              <Comment className="mt-3" postId={post.id}/>
+              <Comment className="mt-2" postId={post.id} />
             </Row>
           </Col>
         </Row>  

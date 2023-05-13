@@ -1,60 +1,40 @@
 import React, { useState } from 'react';
 import { Col, Form, Input, Row } from 'reactstrap';
 import { ArrowUp } from 'react-feather'
-import mockData5 from "../../../assets/pictures/mockData5.jpg"
+// component
 import Avatar from '../../Avatar/Avatar';
+// hook
 import useGetComments from './hooks/useGetComments';
+import usePostComment from './hooks/usePostComment';
+// assets
+import defaultAvatar from '../../../assets/pictures/default-avatar.jpg'
 
-const Comment = ({ className, postId, userId }) => {
+const Comment = ({ className, postId }) => {
+  // user id
+  const userId = window.localStorage.getItem('id')
+
+  // comment
   const [comment, setComment] = useState('')
-  const [commentsList, setCommentsList] = useState([])
-
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   }
 
-  const handlePostComment = (event) => {
-    event.preventDefault();
-    if (comment.trim() !== '') {
-      setCommentsList([...commentsList, comment]);
-      setComment('');
-    }
-  }
-
-  const { comments, error, isLoading } = useGetComments({ postId })
-  // const { postComment, isLoading, error } = usePostComment();
+  const { comments, setComments } = useGetComments({ postId })
+  const { postComment } = usePostComment();
 
   // post comment
-  // const handlePostComment = (event) => {
-  //   event.preventDefault();
-  //   postComment(postId, comment, userId);
-  //   setComment('');
-  // };
+  const handlePostComment = async (event) => {
+    event.preventDefault();
+    const response = await postComment({postId, comment, userId});
+    
+    setComment('');
+    setComments([...comments, response.comment]);
+  };
 
-  // returned data from server
-  const mockComments = [
-    {
-      id: '123123',
-      post_id: '123',
-      commenter_id: 'maya11',
-      content: 'slayyyy',
-      commenter_username: 'jennie_l',
-      commenter_picture: mockData5
-    },
-    {
-      id: '12312356',
-      post_id: '123',
-      commenter_id: 'maya112',
-      content: 'beautiful',
-      commenter_username: 'jennie_l',
-      commenter_picture: mockData5
-    },
-  ]
-
-  console.log("hererere: ", comments)
   return (
     <div className={className}>
       <Form onSubmit={handlePostComment}>
+
         <div className="t-bg-[#F1F1F1] p-2 t-flex t-items-center t-justify-between mb-4">
           <Input
             type="text"
@@ -70,23 +50,24 @@ const Comment = ({ className, postId, userId }) => {
             <ArrowUp  />
           </button>
         </div>
+     
+        <ul className="wrapper t-h-[410px] t-overflow-y-auto">
+          {comments.map((comment, index) => (
+            <li key={index} className="mb-4 ml-2 t-flex">
+              <Row className='t-flex t-items-center'>
+                <Col>
+                <Avatar img={comment?.commenter_picture || defaultAvatar} className="t-w-[2.5rem] t-h-[2.5rem]" />
+                </Col>
+                <Col className="t-text-[0.85rem]">
+                  <Row><h1 className='t-font-semibold'>{comment.commenter_username}</h1></Row>
+                  <Row><p className='mt-1'>{comment.content}</p></Row>
+                </Col>
+              
+              </Row>
+            </li>
+          ))}
+        </ul>
       </Form>
-      <ul>
-        {comments.map((comment, index) => (
-          <li key={index} className="mb-4 ml-2 t-flex">
-            <Row className='t-flex t-items-center'>
-              <Col>
-              <Avatar img={comment.commenter_picture} className="t-w-[2.5rem] t-h-[2.5rem]" />
-              </Col>
-              <Col className="t-text-[0.85rem]">
-                <Row><h1 className='t-font-semibold'>{comment.commenter_username}</h1></Row>
-                <Row><p className='mt-1'>{comment.content}</p></Row>
-              </Col>
-            
-            </Row>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };
