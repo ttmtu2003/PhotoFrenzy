@@ -26,7 +26,6 @@ const Comment = ({ className, postId }) => {
   const handlePostComment = async (event) => {
     event.preventDefault();
     const response = await postComment({postId, comment, userId});
-    
     setComment('');
     setComments([...comments, response.comment]);
   };
@@ -34,8 +33,8 @@ const Comment = ({ className, postId }) => {
   return (
     <div className={className}>
       <Form onSubmit={handlePostComment}>
-
         <div className="t-bg-[#F1F1F1] p-2 t-flex t-items-center t-justify-between mb-4">
+          {/* comment input */}
           <Input
             type="text"
             placeholder="Write a comment.."
@@ -43,6 +42,7 @@ const Comment = ({ className, postId }) => {
             onChange={handleCommentChange}
             className="t-w-full !t-rounded-full mr-2 py-2 px-3 placeholder-gray-400 border border-gray-400 focus:t-outline-none focus:t-shadow-none"
           />
+          {/* submit button */}
           <button
             type="submit"
             className="t-text-white t-bg-[#098DED] hover:t-bg-[#077ACD] t-rounded-full p-1"
@@ -51,6 +51,7 @@ const Comment = ({ className, postId }) => {
           </button>
         </div>
      
+        {/* comments list */}
         <ul className="wrapper t-h-[410px] t-overflow-y-auto">
           {comments.map((comment, index) => (
             <li key={index} className="mb-4 ml-2 t-flex">

@@ -9,6 +9,7 @@ const LoginForm = ( { className } ) => {
   const [ password, setPassword ] = useState("")
   const [ errorMsg, setErrorMsg ] = useState("")
 
+  // on log in 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
     const { data } = await loginUser(username, password)
@@ -21,7 +22,6 @@ const LoginForm = ( { className } ) => {
     else
       setErrorMsg(data.message)
   }
-
   
   return (
     <div className="mt-3 t-w-fit t-font-light">

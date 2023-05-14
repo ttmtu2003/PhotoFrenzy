@@ -7,30 +7,25 @@ import Avatar from "../../../../components/Avatar/Avatar"
 // hooks
 import useUpdateProfile from "../../hooks/useUpdateProfile"
 
-const mockData = {
-  username: 'taylorswift',
-  profilePic: '/static/src/assets/pictures/mockData1.jpg',
-  bio: 'I’m the problem, it’s me',
-  followers: '1000',
-  followings: '0',
-}
-
 const Header = ({ className, user }) => {
   const [uploadable, setUploadable] = useState(false)
   const [newBio, setNewBio] = useState(user.bio)
   const [newAvatar, setNewAvatar] = useState(null)
   const { updateProfile } = useUpdateProfile({ userId: user.id })
 
+  // on update
   const handleSave = async () => {
     const res = await updateProfile({ bio: newBio, avatar: newAvatar })
     setUploadable(false)
     window.location.reload()
   }
 
+  // on cancel
   const handleCancel = () => {
     setUploadable(false)
   }
 
+  // on edit button click
   const handleEditProfile = () => {
     setUploadable(true)
   }

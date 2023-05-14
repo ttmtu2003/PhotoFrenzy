@@ -11,15 +11,17 @@ const CreatePost = ({ className }) => {
 
   const user_id = window.localStorage.getItem('id')
 
+  // on image upload
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
-    // console.log("FILE", file)
   };
 
+  // on caption input change
   const handleCaptionChange = (event) => {
     setCaption(event.target.value);
   };
 
+  // on update
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData()

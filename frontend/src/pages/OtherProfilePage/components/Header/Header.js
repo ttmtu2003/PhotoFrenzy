@@ -1,28 +1,39 @@
 import { useEffect, useState } from "react";
-import Avatar from "../../../../components/Avatar/Avatar"
 import cls from 'classnames'
 import { Check } from "react-feather";
+import axios from "axios";
+// components
+import Avatar from "../../../../components/Avatar/Avatar"
+// hooks
 import useFollowUser from "../../hooks/useFollowUser";
 import useUnfollowUser from "../../hooks/useUnfollowUser";
-import axios from "axios";
 
 const Header = ({ className, user }) => {
-
+  // user id
   const currUId = window.localStorage.getItem('id')
+
+  // follow state
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followerCount, setFollowerCount ] = useState(0)
+
   const { followUser } = useFollowUser({ userId: user.id, currUId })
   const { unfollowUser } = useUnfollowUser({ userId: user.id, currUId })
 
-  const [isFollowing, setIsFollowing] = useState(false);
+  useEffect(() => {
+    setFollowerCount(user.follower_count)
+  }, [user])
 
   // handle unfollow user
   const handleUnfollow = () => {
     setIsFollowing(false)
+    setFollowerCount(prev => prev-1)
     unfollowUser()
   }
 
   // handle follow user
   const handleFollow = () => {
     setIsFollowing(true)
+    setFollowerCount(prev => prev+1)
     followUser()
   }
 
@@ -60,7 +71,7 @@ const Header = ({ className, user }) => {
 
       {/* followers */}
       <div className="t-flex t-flex-col t-justify-center t-items-center">
-        <h1 className="t-font-bold">{user.follower_count}</h1>
+        <h1 className="t-font-bold">{followerCount}</h1>
         <p className="mt-2">Followers</p>
       </div>
 
