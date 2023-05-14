@@ -6,14 +6,6 @@ import useFollowUser from "../../hooks/useFollowUser";
 import useUnfollowUser from "../../hooks/useUnfollowUser";
 import axios from "axios";
 
-const mockUser = {
-  username: 'taylorswift',
-  profilePic: '/static/src/assets/pictures/mockData1.jpg',
-  bio: 'I’m the problem, it’s me',
-  followers: '1000',
-  followings: '0',
-}
-
 const Header = ({ className, user }) => {
 
   const currUId = window.localStorage.getItem('id')
