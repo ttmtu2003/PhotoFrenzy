@@ -12,11 +12,9 @@ const useUpdateProfile = ({ userId }) => {
     try {
       const response = await axios.put(`/profile?user_id=${userId}`, data)
       return response.data
-      
     } catch (error) {
       setError(error.message)
     }
-
     setLoading(false)
   }
 

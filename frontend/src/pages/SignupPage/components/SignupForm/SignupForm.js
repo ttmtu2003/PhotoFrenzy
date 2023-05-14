@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { Button, CardTitle, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap'
+import { Button, Form, FormGroup, Input, Row } from 'reactstrap'
 // hooks
 import signupUser from '../../hooks/useSignUp'
 

@@ -8,7 +8,6 @@ const useGetPosts = ({ userId }) => {
     async function fetchUserPosts() {
       const res = await axios.get(`/posts?user_id=${userId}`);
       const userPosts = res.data;
-      // console.log("POSTS", res)
       setPosts(userPosts);
     }
 
