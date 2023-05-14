@@ -18,7 +18,7 @@ const SearchBar = () => {
   const { users, error } = useGetUsers(query, userId)
 
   const handleResultClick = (userId) => {
-    history.push(`/users/${userId}`);
+    window.location = `/users/${userId}`;
     setAddMemberPopoverOpen((prev) => !prev)
   }
 
@@ -47,7 +47,7 @@ const SearchBar = () => {
       >
         <PopoverBody className='px-0'>
           {error && <p>{error}</p>}
-          {users.length > 0 && (
+          {users.length > 0 ? (
             <ul>
               {users.map(user => (
                 <li key={user.id} className="hover:t-bg-[#F4F4F4] t-items-center py-2 px-3 t-flex hover:t-cursor-pointer" onClick={() => handleResultClick(user.id)}>
@@ -56,6 +56,8 @@ const SearchBar = () => {
                 </li>
               ))}
             </ul>
+          ) : (
+            <h1 className='ml-2 t-text-[#BEBEBE]'>No results found</h1>
           )}
         </PopoverBody>
       </Popover>

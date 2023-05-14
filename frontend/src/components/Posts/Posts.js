@@ -19,10 +19,13 @@ const Posts = ({ className, posts }) => {
     setOpen(false)
   }
 
-  console.log("selectpost: ",selectedPost);
-  
   return (
     <div className={cls("p-3", className)}>
+        {posts.length <= 0 && (
+          <div className="t-w-[100vw] t-h-[20rem] t-flex t-justify-center t-items-center">
+            <h1 className="t-font-semibold t-text-[#BEBEBE]">There is no post yet</h1>
+          </div>
+        )}
       {/* post content */}
       <div id="gallery" >
         {posts.map((post, index) => (

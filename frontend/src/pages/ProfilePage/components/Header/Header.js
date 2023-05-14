@@ -21,13 +21,8 @@ const Header = ({ className, user }) => {
   const [newAvatar, setNewAvatar] = useState(null)
   const { updateProfile } = useUpdateProfile({ userId: user.id })
 
-  const handleAvatarUpload = (imageData) => {
-    setNewAvatar(imageData)
-    setUploadable(true)
-  }
-
-  const handleSave = () => {
-    updateProfile({ bio: newBio, avatar: newAvatar })
+  const handleSave = async () => {
+    const res = await updateProfile({ bio: newBio, avatar: newAvatar })
     setUploadable(false)
     window.location.reload()
   }

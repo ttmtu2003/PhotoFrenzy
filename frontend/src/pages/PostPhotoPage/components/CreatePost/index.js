@@ -6,7 +6,7 @@ import { Button, Input } from 'reactstrap';
 const CreatePost = ({ className }) => {
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState('');
-  const { response, isLoading, error, postPhoto } = usePostPhoto();
+  const { postPhoto } = usePostPhoto();
   const fileInputRef = useRef(null);
 
   const user_id = window.localStorage.getItem('id')
@@ -38,14 +38,14 @@ const CreatePost = ({ className }) => {
       <form onSubmit={handleSubmit}>
         {/* caption */}
         <div className='p-3'>
-          <Input type="textarea" placeholder="What's happening?" id="caption" name="caption" className="placeholder-gray-500" value={caption} onChange={handleCaptionChange} />
+          <Input type="textarea" placeholder="What's happening?" data-testid="caption" name="caption" className="placeholder-gray-500" value={caption} onChange={handleCaptionChange} />
         </div>
         
         {/* photo */}
         <div className='px-3'>
           <label htmlFor="photo-upload" className="t-w-full t-flex t-justify-center">
             {file ? (
-              <img src={URL.createObjectURL(file)} alt="Selected" />
+              <img src={URL.createObjectURL(file)} alt="Selected" data-testid="photo-preview" />
             ) : (
               <div className='hover:t-cursor-pointer t-flex t-justify-start t-w-full'>
                 <Image className='hover:t-text-[#098DED]' />
@@ -59,18 +59,16 @@ const CreatePost = ({ className }) => {
             onChange={handleFileChange}
             ref={fileInputRef}
             style={{ display: 'none' }}
+            data-testid="photo-input"
           />
         </div>
 
         {/* submit button */}
         <div className='t-flex t-justify-end mr-3 mb-2'>
-          <Button className='t-bg-[#098DED] t-rounded-md t-border-none hover:t-bg-[#0786E2]' type="submit" disabled={isLoading}>Post</Button>
+          <Button className='t-bg-[#098DED] t-rounded-md t-border-none hover:t-bg-[#0786E2]' type="submit">Post</Button>
         </div>
         
       </form>
-      {/* {isLoading && <p>Uploading photo...</p>} */}
-      {error && <p>Error: {error.message}</p>}
-      {/* {response && <p>Photo uploaded successfully!</p>} */}
     </div>
   )
 }
