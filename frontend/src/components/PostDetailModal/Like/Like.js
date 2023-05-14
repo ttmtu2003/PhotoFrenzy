@@ -23,8 +23,8 @@ const Like = ({ postId, userId }) => {
 
   return (
     <div className='t-flex t-flex-col t-w-full t-items-center'>
-      <FavoriteIcon className={`hover:t-cursor-pointer ${isLiked ? 't-text-red-500' : ''}`} onClick={handleClick} />
-      <p>{totalLikes}</p>
+      <FavoriteIcon data-testid='like-button' className={`hover:t-cursor-pointer ${isLiked ? 't-text-red-500' : ''}`} onClick={handleClick} />
+      <p data-testid='total-likes'>{totalLikes}</p>
     </div>
   )
 };

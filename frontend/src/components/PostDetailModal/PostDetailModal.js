@@ -1,5 +1,6 @@
 import { Col, Modal, ModalBody, ModalHeader, Row } from "reactstrap"
 import cls from 'classnames'
+import React from 'react'
 import './style.scss'
 // avatar
 import Avatar from "../Avatar/Avatar";

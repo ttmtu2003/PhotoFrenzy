@@ -12,7 +12,7 @@ const useGetComments = ({ postId }) => {
       const response = await axios.get(`/posts/${postId}/comments`);
       setComments(response.data)
     } catch (error) {
-      setError(error);
+      setError(error.response.data.error);
       setIsLoading(false);
     }
   };

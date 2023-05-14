@@ -119,10 +119,6 @@ def post_photo():
 
     return jsonify({'id': post.id, 'caption': post.caption, 'photo_data': photo_data_base64, 'user_id' : post.user_id}), 200
 
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
 ################ GET FOLLOWING POSTS ################
 
 @app.route('/posts', methods=['GET'])
@@ -216,7 +212,7 @@ def get_user_info():
         }
         return jsonify(user_info)
     else:
-        return jsonify({'error': 'User not found'})
+        abort(404, description="User not found")
 
 
 ################ FOLLOW USER ################
@@ -396,7 +392,6 @@ def unlike_post(post_id):
         # print("I FOUND THE LIKE RECORDED ")
         
         return jsonify({'success:': True})
-    print("YOU HAVE CLICK THE UNLIKE BUTTON????????")
     return jsonify({"total_likes": post1.total_likes })
 
 ################ LOGIN ################

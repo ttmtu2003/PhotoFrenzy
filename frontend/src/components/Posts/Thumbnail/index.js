@@ -1,11 +1,11 @@
 import styled from "styled-components";
+import React from 'react'
 import { Paper } from "@material-ui/core"
 
 const Thumbnail = ({ post, className }) => {
-
   return (
     <StyledContainer className={className} elevation={3}>
-      <StyledImage src={`data:image/jpeg;base64,${post.photo_data}`} alt="photo" />
+      <StyledImage src={`data:image/jpeg;base64,${post.photo_data}`} alt={`photo-${post.id}`} />
       <StyledOverlay>
           <StyledAuthor>
             <h1 className="t-w-full t-text-ellipsis t-whitespace-nowrap t-overflow-hidden t-font-semibold t-text-[14px]">{post.caption}</h1>
