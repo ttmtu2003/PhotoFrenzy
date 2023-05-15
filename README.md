@@ -26,4 +26,26 @@
 - change current directory to backend folder
     `cd ..` >> `cd flask-backend`
 
-- install all dependencies: `pip freeze > requirements. txt`
+- install python enviornments
+    `python3 -m venv env`
+
+- activate enviornments
+    `source env/bin/activate`
+
+- install all the requirement package needed
+    `pip install -r requirements.txt`
+
+- start the backend server
+    `python run.py`
+
+- (Optional) if any extra package update requirements files: `pip freeze > requirements.txt`
+
+- (Optional) change localhost proxy address:
+    - find source code under flask-backend/app/__ init__.py
+    ```python
+    app.config['SERVER_NAME'] = 'localhost:5000'
+    ```
+    - if modify localhost, need fix connection with REACT under the file frontend/package.json
+    ```REACT
+    "proxy": "http://localhost:5000/"
+    ```
