@@ -28,7 +28,7 @@ const Comment = ({ className, postId }) => {
     const response = await postComment({postId, comment, userId});
     
     setComment('');
-    setComments([...comments, response.comment]);
+    setComments([response.comment, ...comments]);
   };
 
   return (
