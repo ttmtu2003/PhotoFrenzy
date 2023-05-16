@@ -27,7 +27,7 @@ const Comment = ({ className, postId }) => {
     event.preventDefault();
     const response = await postComment({postId, comment, userId});
     setComment('');
-    setComments([...comments, response.comment]);
+    setComments([response.comment, ...comments]);
   };
 
   return (
