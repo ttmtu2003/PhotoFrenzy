@@ -88,7 +88,7 @@ def login():
     if user is not None and user.verify_password(password):
       login_user(user)
 
-      return jsonify({'token': user.token, 'id': user.id, 'status': 'success'})
+      return jsonify({'user': user.serialize(), 'status': 'success'})
     
     # Return an error message
     return jsonify({'message': 'Invalid username or password', 'status': 'error'})
@@ -162,7 +162,7 @@ def search_users():
     db.session.rollback()
     return jsonify({'success': False, 'error': str(e)})
 
-################ UPDATE PROFILE (NOT DONE) ################
+################ UPDATE PROFILE ################
 @app.route('/profile', methods=['PUT'])
 def update_profile():
     try:
@@ -181,12 +181,9 @@ def update_profile():
 
         db.session.commit()
 
-        return jsonify({
-          'id': user.id,
-          'username': user.username,
-          'avatar': base64.b64encode(user.avatar).decode('utf-8'),
-          'bio': user.bio,
-        }), 200
+        # Return the updated user object
+        return jsonify(user.serialize()), 200
+
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'error': str(e)})
@@ -394,4 +391,75 @@ def unlike_post(post_id):
         return jsonify({'success:': True})
     return jsonify({"total_likes": post1.total_likes })
 
-################ LOGIN ################
+################ UPDATE USER INFO ################
+@app.route('/user-detail', methods=['PUT'])
+def update_user():
+    data = request.get_json()
+    user_id = data.get('userId')
+    username = data.get('username')
+    password = data.get('password')
+
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    if username:
+        user.username = username
+
+    if password:
+        user.password_hash = generate_password_hash(password, method='scrypt')
+
+    db.session.commit()
+
+    return jsonify({'message': 'User updated successfully', 'user': {'username': user.username, 'password': user.password_hash}})
+
+
+################ DELETE USER ################
+@app.route('/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    try:
+        user = User.query.get(user_id)
+        
+        if user is None:
+            return jsonify({'success': False, 'error': 'User not found'}), 404
+
+        # Delete all related posts
+        posts = Post.query.filter_by(user_id=user_id).all()
+        
+        for post in posts:
+            # Decrease the total likes of the post by 1
+            post.total_likes -= 1
+
+            # Delete all related comments
+            comments = Comment.query.filter_by(post_id=post.id).all()
+            for comment in comments:
+                db.session.delete(comment)
+
+            db.session.delete(post)
+
+        # Delete all related comments
+        comments = Comment.query.filter_by(author_id=user_id).all()
+        for comment in comments:
+            db.session.delete(comment)
+
+        # Delete all related likes
+        likes = Like.query.filter_by(user_id=user_id).all()
+        for like in likes:
+            db.session.delete(like)
+        
+        
+        # Delete all related followers
+        # followers.delete().where(followers.c.follower_id == user_id).execute()
+        
+        follower_records = followers.delete().where(and_(followers.c.followed_id == user_id, followers.c.follower_id != user_id))
+        db.session.execute(follower_records)
+        print('sucess')
+
+        db.session.delete(user)
+        db.session.commit()
+
+        return jsonify({'success': True}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500

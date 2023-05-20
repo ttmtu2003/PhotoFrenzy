@@ -11,11 +11,12 @@ const Header = ({ className, user }) => {
   const [uploadable, setUploadable] = useState(false)
   const [newBio, setNewBio] = useState(user.bio)
   const [newAvatar, setNewAvatar] = useState(null)
-  const { updateProfile } = useUpdateProfile({ userId: user.id })
+  const { error, updateProfile } = useUpdateProfile({ userId: user.id })
 
   // on update
   const handleSave = async () => {
     const res = await updateProfile({ bio: newBio, avatar: newAvatar })
+    window.localStorage.setItem('userData', JSON.stringify(res))
     setUploadable(false)
     window.location.reload()
   }
@@ -32,7 +33,7 @@ const Header = ({ className, user }) => {
 
   return (
     <div className={cls(className, 't-ml-[3rem] t-flex')}>
-      {user.avatar !== undefined && <Avatar newAvatar={newAvatar} setNewAvatar={setNewAvatar} img={user.avatar ? user.avatar : null} imgHeight="6rem" imgWidth="6rem" className="t-w-[6rem] t-h-[6rem]" uploadable={uploadable} />}
+      {user.avatar !== undefined && <Avatar newAvatar={newAvatar} setNewAvatar={setNewAvatar} img={user.avatar ? user.avatar : null} imgHeight="6rem" imgWidth="6rem" imgClassName="t-w-[6rem] t-h-[6rem]" uploadable={uploadable} />}
 
       {/* name and bio */}
       <div className="t-flex-1 t-flex-1 t-flex">
@@ -53,6 +54,7 @@ const Header = ({ className, user }) => {
 
           {/* bio */}
           {uploadable ? <input placeholder="Bio" type="textarea" className="focus:t-outline-none focus:t-shadow-none mt-3 px-2 t-w-full t-rounded-sm" value={newBio} onChange={(e) => setNewBio(e.target.value)} /> : <p id="bio" className="mt-2" value={user.bio}>{user.bio}</p>}
+          {error && <div className="ml-3 t-text-red-500">{error}</div>}
         </div>
       </div>
 

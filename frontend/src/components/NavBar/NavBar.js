@@ -1,15 +1,9 @@
 import React from "react";
-import { User } from "react-feather";
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button } from "reactstrap"
+import { Navbar, NavbarBrand, Nav, NavItem } from "reactstrap"
 import SearchBar from "../SearchBar/SearchBar";
+import UserDropdown from "../ProfileDropdown/ProfileDropdown";
 
 const UserNavbar = () => {
-  const handleLogout = () => {
-    window.localStorage.setItem('isAuthed', false)
-    window.localStorage.removeItem('token')
-    window.localStorage.removeItem('id')
-    window.location.href = "/"
-  }
 
   return (
     <Navbar color="light" dark expand="md" className="t-inline-flex t-fixed t-top-0 t-w-full t-z-[1100]">
@@ -22,18 +16,7 @@ const UserNavbar = () => {
       </Nav>
 
       <Nav className="t-flex t-w-fit t-items-center" navbar>
-        {/* profile  */}
-        <NavItem>
-          <NavLink href="/profile" className="ml-3 t-flex t-items-center">
-            <User className="t-text-black" />
-            <h3 className="ml-2 t-font-semibold t-text-[1rem] t-text-black">Profile</h3>
-          </NavLink>
-        </NavItem>
-
-        {/* logout */}
-        <NavItem>
-          <Button onClick={handleLogout} className="active:t-bg-[#098DED] t-outline-0 t-border-[#098DED] hover:t-bg-[#098DED] t-text-[#098DED] hover:t-text-white ml-2">Logout</Button>
-        </NavItem>
+        <UserDropdown />
       </Nav>
     </Navbar>
   );

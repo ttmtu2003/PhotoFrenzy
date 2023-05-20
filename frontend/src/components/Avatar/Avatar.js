@@ -59,7 +59,7 @@ const Avatar = forwardRef((props, ref) => {
       <img
         className={classnames({
           [imgClassName]: imgClassName,
-        }, 't-w-full t-h-full')}
+        })}
         src={newAvatar || image || defaultAvatar}
         height={imgHeight ? imgHeight : '100%'}
         width={imgWidth ? imgWidth : '100%'}

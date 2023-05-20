@@ -31,6 +31,23 @@ class User(UserMixin, db.Model):
     comments = db.relationship('Comment', backref='user', lazy='dynamic')
     likes = db.relationship('Like', backref='user', lazy=True)
 
+    def serialize(self):
+      serialized_post = {
+        'id': self.id,
+        'token': self.token,
+        'username': self.username,
+        'full_name': self.full_name,
+        'bio': self.bio,
+        'avatar': None,
+        'follower_count': self.follower_count,
+        'following_count': self.following_count,
+        'active': self.active
+      }
+      
+      if self.avatar is not None:
+          serialized_post['avatar'] = f'{self.avatar.decode("utf-8")}'
+      return serialized_post
+
     def __repr__(self):
         return '<User %r>' % self.username
 

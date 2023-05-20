@@ -10,7 +10,7 @@ const useGetComments = ({ postId }) => {
   const getComments = async () => {
     try {
       const response = await axios.get(`/posts/${postId}/comments`);
-      setComments(response.data)
+      setComments(response.data.reverse())
     } catch (error) {
       setError(error.response.data.error);
       setIsLoading(false);
