@@ -36,7 +36,7 @@ const UserDropdown = () => {
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       <DropdownToggle href="/" tag="a" className="nav-link dropdown-user-link" onClick={(e) => e.preventDefault()}>
         <div className="t-flex t-items-center">
-          <span className="t-text-black t-font-medium mr-2">{(userData && userData['username']) || 'John Doe'}</span>
+          <span className="t-text-black t-font-medium mr-2">{(userData ? (userData['full_name'] ? userData['full_name'] : userData['username']) : 'John Doe')}</span>
         
           <Avatar newAvatar={userAvatar} imgClassName='t-h-[3rem] t-w-[3rem]' imgHeight="1rem" imgWidth="1rem" />
         </div>
