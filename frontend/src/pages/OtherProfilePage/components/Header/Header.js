@@ -16,8 +16,8 @@ const Header = ({ className, user }) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followerCount, setFollowerCount ] = useState(0)
 
-  const { followUser } = useFollowUser({ userId: user.id, currUId })
-  const { unfollowUser } = useUnfollowUser({ userId: user.id, currUId })
+  const { error, followUser } = useFollowUser({ userId: user.id, currUId })
+  const { errorMsg, unfollowUser } = useUnfollowUser({ userId: user.id, currUId })
 
   useEffect(() => {
     setFollowerCount(user.follower_count)
@@ -53,16 +53,22 @@ const Header = ({ className, user }) => {
 
   return (
     <div className={cls(className, 't-ml-[3rem] t-flex')}>
-      {user.avatar !== undefined && <Avatar img={user.avatar} imgHeight="6rem" imgWidth="6rem" className="t-w-[6rem] t-h-[6rem]" />}
+      {user.avatar !== undefined && <Avatar img={user.avatar} imgHeight="6rem" imgWidth="6rem" imgClassName="t-w-[6rem] t-h-[6rem]" />}
 
       {/* name and bio */}
       <div className="t-ml-[2rem] t-flex t-flex-1 t-flex-col t-justify-center">
         <div className="t-flex t-items-center">
           <h1 className="t-font-bold">{user.username}</h1>
           {isFollowing ? (
-            <button onClick={handleUnfollow} className='ml-4 t-bg-[#BCBCBC] t-w-[8rem] t-flex t-justify-center t-rounded-sm t-text-white t-items-center t-font-semibold py-1'><Check size={18} className="mr-2" /> Following</button>
+            <div className="t-flex">
+              <button onClick={handleUnfollow} className='ml-4 t-bg-[#BCBCBC] t-w-[8rem] t-flex t-justify-center t-rounded-sm t-text-white t-items-center t-font-semibold py-1'><Check size={18} className="mr-2" /> Following</button>
+              {errorMsg && <div className="ml-3 t-text-red-500">{errorMsg}</div>}
+            </div>
           ) : (
-            <button className='ml-4 t-bg-[#64BCED] t-text-white t-w-[5rem] t-h-[2rem] t-rounded-sm t-font-semibold' onClick={handleFollow}>Follow</button>
+            <div className="t-flex">
+              <button className='ml-4 t-bg-[#64BCED] t-text-white t-w-[5rem] t-h-[2rem] t-rounded-sm t-font-semibold' onClick={handleFollow}>Follow</button>
+              {error && <div className="ml-3 t-text-red-500">{error}</div>}
+            </div>
           )}
         </div>
         

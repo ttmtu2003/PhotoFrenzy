@@ -1,11 +1,13 @@
 import os
 from flask import render_template, flash, url_for, redirect, request, session,jsonify, json
-from app.models import User, db, Post, Comment, Like
+from app.models import User, db, Post, Comment, Like, followers
 from app import app
 import secrets
 from flask_login import login_user
 from werkzeug.security import generate_password_hash
 import base64
+import traceback
+from sqlalchemy import func
 
 @app.route("/")
 def home():
@@ -419,13 +421,17 @@ def update_user():
 def delete_user(user_id):
     try:
         user = User.query.get(user_id)
-        
+
         if user is None:
             return jsonify({'success': False, 'error': 'User not found'}), 404
 
+        # Decrease follower_count for users who are followed by deleted user
+        followed_users = user.followed.all()
+        for followed_user in followed_users:
+            followed_user.follower_count -= 1
+
         # Delete all related posts
         posts = Post.query.filter_by(user_id=user_id).all()
-        
         for post in posts:
             # Decrease the total likes of the post by 1
             post.total_likes -= 1
@@ -445,15 +451,18 @@ def delete_user(user_id):
         # Delete all related likes
         likes = Like.query.filter_by(user_id=user_id).all()
         for like in likes:
+            # Decrease the total likes of the post associated with the like by 1
+            if like.post_id is not None:
+                post = Post.query.get(like.post_id)
+                if post is not None:
+                    post.total_likes -= 1
             db.session.delete(like)
-        
-        
+
         # Delete all related followers
-        # followers.delete().where(followers.c.follower_id == user_id).execute()
-        
-        follower_records = followers.delete().where(and_(followers.c.followed_id == user_id, followers.c.follower_id != user_id))
+        follower_records = followers.delete().where(
+            (followers.c.followed_id == user_id) | (followers.c.follower_id == user_id)
+        )
         db.session.execute(follower_records)
-        print('sucess')
 
         db.session.delete(user)
         db.session.commit()
@@ -462,4 +471,5 @@ def delete_user(user_id):
 
     except Exception as e:
         db.session.rollback()
+        traceback.print_exc()
         return jsonify({'success': False, 'error': str(e)}), 500
