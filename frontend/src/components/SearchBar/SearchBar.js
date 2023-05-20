@@ -1,13 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Input, Popover, PopoverBody } from 'reactstrap';
+// component
 import Avatar from '../Avatar/Avatar';
+// hook
 import useGetUsers from '../../hooks/useGetUsers';
-
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
-  const history = useHistory();
   const searchRef = useRef()
   const [addMemberPopoverOpen, setAddMemberPopoverOpen] = useState(false)
 

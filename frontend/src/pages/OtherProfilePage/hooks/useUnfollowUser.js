@@ -2,6 +2,8 @@ import { useState } from 'react'
 import axios from 'axios'
 
 const useUnfollowUser = ({ userId, currUId }) => {
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function unfollowUser() {
     try {
@@ -9,12 +11,13 @@ const useUnfollowUser = ({ userId, currUId }) => {
         return res
 
     } catch (error) {
-      
+      setErrorMsg(error.response.data.error);
+      setIsLoading(false);
       return error
     }
   }
 
-  return { unfollowUser }
+  return { errorMsg, isLoading, unfollowUser }
 }
 
 export default useUnfollowUser

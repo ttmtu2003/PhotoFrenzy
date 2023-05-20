@@ -36,11 +36,11 @@ const SettingPage = () => {
   const handleDeleteSubmit = async (event) => {
     event.preventDefault();
     const response = await deleteUser(userId);
-    // window.localStorage.setItem('isAuthed', false)
-    // window.location.href = '/login'
-    // window.localStorage.removeItem('token')
-    // window.localStorage.removeItem('id')
-    // window.localStorage.removeItem('userData')
+    window.localStorage.setItem('isAuthed', false)
+    window.location.href = '/login'
+    window.localStorage.removeItem('token')
+    window.localStorage.removeItem('id')
+    window.localStorage.removeItem('userData')
   };
 
   return (
