@@ -57,7 +57,7 @@ const Comment = ({ className, postId }) => {
             <li key={index} className="mb-4 ml-2 t-flex">
               <Row className='t-flex t-items-center'>
                 <Col>
-                <Avatar img={comment?.commenter_picture || defaultAvatar} className="t-w-[2.5rem] t-h-[2.5rem]" />
+                <Avatar newAvatar={comment?.commenter_picture || defaultAvatar} className="t-w-[2.5rem] t-h-[2.5rem]" />
                 </Col>
                 <Col className="t-text-[0.85rem]">
                   <Row><h1 className='t-font-semibold'>{comment.commenter_username}</h1></Row>

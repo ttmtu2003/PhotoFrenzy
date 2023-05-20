@@ -15,9 +15,10 @@ const LoginForm = ( { className } ) => {
     const { data } = await loginUser(username, password)
     if(data.status === 'success'){
       window.location.href = '/explore'
-      window.localStorage.setItem('token', data.token)
+      window.localStorage.setItem('token', data.user.token)
+      window.localStorage.setItem('userData', JSON.stringify(data.user));
       window.localStorage.setItem('isAuthed', true)
-      window.localStorage.setItem('id', data.id)
+      window.localStorage.setItem('id', data.user.id)
     }
     else
       setErrorMsg(data.message)

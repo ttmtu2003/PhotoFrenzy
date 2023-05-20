@@ -13,7 +13,7 @@ const useUpdateProfile = ({ userId }) => {
       const response = await axios.put(`/profile?user_id=${userId}`, data)
       return response.data
     } catch (error) {
-      setError(error.message)
+      setError(error.response.data.error);
     }
     setLoading(false)
   }
