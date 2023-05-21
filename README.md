@@ -1,9 +1,8 @@
 # PhotoFrenzy (CMPE 133 Team 13) 
-> This is a full-stack photo-sharing web application for our CMPE 133 software engineering group project. 
-
 > Xiyuan Zhou, Tu Tran, Mohammad Zaza
 
-> In order to run our website correctly, users will have to have NodeJS installed on their computers.
+> This is a full-stack photo-sharing web application for our CMPE 133 software engineering group project. 
+
 
 # Frontend libraries and packages
 - MaterialUI: https://mui.com
@@ -41,6 +40,7 @@
 - typing_extensions: https://pypi.org/project/typing-extensions/
 
 # How to run frontend
+- In order to run our website correctly, users will have to have NodeJS installed on their computers.
 - clone repo:
     `git clone https://github.com/ttmtu2003/PhotoFrenzy.git`
 
