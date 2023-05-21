@@ -1,17 +1,28 @@
 import axios from "axios"
+import { useState } from "react"
 
-const signupUser = (fullName, username, password) => {
-  return axios.post('/signup', {
-    body: {
-      fullName,
-      username,
-      password,
-      
+const useSignUp = () => {
+  const [error, setError] = useState(null);
+
+  const signupUser = async (fullName, username, password) => {
+    setError(null);
+    try {
+      const response = await axios.post('/signup', {
+      body: {
+        fullName,
+        username,
+        password,
+        
+      }
+    })
+      return response.data
     }
-  })
-  .then((res) => {
-    return res.data
-  })
+    catch(error) {
+      setError(error.message)
+    }
+  }
+  return { signupUser, error, setError }
 }
 
-export default signupUser
+
+export default useSignUp
