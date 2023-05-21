@@ -3,6 +3,8 @@
 
 > Xiyuan Zhou, Tu Tran, Mohammad Zaza
 
+> In order to run our website correctly, users will have to have NodeJS installed on their computers.
+
 # Frontend libraries and packages
 - MaterialUI: https://mui.com
 - Testing Library: https://testing-library.com
@@ -15,6 +17,28 @@
 - TailwindCSS: https://tailwindcss.com
 - Styled components: https://styled-components.com
 - Jest: https://jestjs.io
+
+# Backend libraries and packages
+- Flask: https://pypi.org/project/Flask/
+- Flask-login: https://pypi.org/project/Flask-Login/
+- Flask-Migrate: https://pypi.org/project/Flask-Migrate/
+- Flask-SQLAlchemy: https://pypi.org/project/Flask-SQLAlchemy/
+- SQLAlchemy: https://pypi.org/project/SQLAlchemy/
+- Jinja2: https://pypi.org/project/Jinja2/
+- jwt: https://pypi.org/project/jwt/
+- pycparser: https://pypi.org/project/pycparser/
+- python-dotenv: https://pypi.org/project/python-dotenv/
+- Werkzeug: https://pypi.org/project/Werkzeug/
+- cryptography: https://pypi.org/project/cryptography/
+- alembic: https://pypi.org/project/alembic/
+- blinker: https://pypi.org/project/blinker/
+- cffi: https://pypi.org/project/cffi/
+- click: https://pypi.org/project/click/
+- itsdangerous: https://pypi.org/project/itsdangerous/
+- Mako: https://pypi.org/project/Mako/
+- MarkupSafe: https://pypi.org/project/MarkupSafe/
+- six: https://pypi.org/project/six/
+- typing_extensions: https://pypi.org/project/typing-extensions/
 
 # How to run frontend
 - clone repo:
@@ -35,7 +59,7 @@
 - start frontend:
     `npm start`
 
-- visit localhost:3000 on browser
+- visit localhost:3000 on browser (recommended: Chrome)
 
 # How to run backend
 - change current directory to backend folder
