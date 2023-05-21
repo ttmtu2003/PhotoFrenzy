@@ -3,8 +3,6 @@
 
 > Xiyuan Zhou, Tu Tran, Mohammad Zaza
 
-> In order to run our website correctly, users will have to have NodeJS installed on their computers.
-
 # Frontend libraries and packages
 - MaterialUI: https://mui.com
 - Testing Library: https://testing-library.com
@@ -41,6 +39,7 @@
 - typing_extensions: https://pypi.org/project/typing-extensions/
 
 # How to run frontend
+- In order to run our website correctly, users will have to have NodeJS installed on their computers.
 - clone repo:
     `git clone https://github.com/ttmtu2003/PhotoFrenzy.git`
 
