@@ -1,8 +1,20 @@
 # PhotoFrenzy (CMPE 133 Team 13) 
 > This is a full-stack photo-sharing web application for our CMPE 133 software engineering group project. 
+
 > Xiyuan Zhou, Tu Tran, Mohammad Zaza
 
-
+# Frontend libraries and packages
+- MaterialUI: https://mui.com
+- Testing Library: https://testing-library.com
+- Axios: https://axios-http.com
+- React: https://react.dev
+- React Feather: https://feathericons.com
+- React Router: https://reactrouter.com/en/main
+- Reactstrap: https://reactstrap.github.io
+- SASS: https://sass-lang.com
+- TailwindCSS: https://tailwindcss.com
+- Styled components: https://styled-components.com
+- Jest: https://jestjs.io
 
 # How to run frontend
 - clone repo:
@@ -17,8 +29,8 @@
 - use the correct `node` version (run installation the correct version as prompted if needed):
     `nvm use`
 
-- install node packages:
-    `npm i`
+- install all required packages and dependencies:
+    `npm install`
 
 - start frontend:
     `npm start`
