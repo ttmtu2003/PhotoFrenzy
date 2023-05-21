@@ -1,5 +1,8 @@
-# PhotoFrenzy
+# PhotoFrenzy (CMPE 133 Team 13) 
+> This is a full-stack photo-sharing web application for our CMPE 133 software engineering group project. 
 > Xiyuan Zhou, Tu Tran, Mohammad Zaza
+
+
 
 # How to run frontend
 - clone repo:
